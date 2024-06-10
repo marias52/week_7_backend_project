@@ -1,0 +1,114 @@
+package com.backend_project.backend_hobby_project.models;
+
+
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "age")
+    private int age;
+
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "biography")
+    private String biography;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_bookings",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "booking_id")
+    )
+    private List<Booking> bookings;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_hobbies",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "hobby_id")
+
+    )
+    private List<Hobby> hobbies;
+
+
+    public User(String name, int age, String location, String biography) {
+        this.name = name;
+        this.age = age;
+        this.location = location;
+        this.biography = biography;
+        this.hobbies = new ArrayList<>();
+        this.bookings = new ArrayList<>();
+    }
+
+    public User() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public List<Hobby> getHobbies() {
+        return hobbies;
+    }
+
+    public void setHobbies(List<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+}
