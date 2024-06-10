@@ -19,7 +19,7 @@ public class Venue {
     @Column (name = "capacity")
     private int capacity;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "venue")
     private List<Booking> bookings;
 
 
