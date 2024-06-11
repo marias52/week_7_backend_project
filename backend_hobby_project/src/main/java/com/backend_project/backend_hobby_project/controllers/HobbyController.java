@@ -4,6 +4,7 @@ import com.backend_project.backend_hobby_project.models.Booking;
 import com.backend_project.backend_hobby_project.models.BookingDTO;
 import com.backend_project.backend_hobby_project.models.Hobby;
 import com.backend_project.backend_hobby_project.models.HobbyDTO;
+import com.backend_project.backend_hobby_project.services.BookingService;
 import com.backend_project.backend_hobby_project.services.HobbyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class HobbyController {
 
     @Autowired
     HobbyService hobbyService;
+
+    @Autowired
+    BookingService bookingService;
 
     @GetMapping
     public ResponseEntity<List<Hobby>> getAllHobbies(){
@@ -50,6 +54,8 @@ public class HobbyController {
     @DeleteMapping (value = "/{id}")
     public ResponseEntity<Long> deleteHobby(@PathVariable Long id){
         if(hobbyService.findHobbyById(id).isPresent()) {
+            bookingService.removeHobbyFromAllBookings(id);
+
             hobbyService.deleteHobbyById(id);
             return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
