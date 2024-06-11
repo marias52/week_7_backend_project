@@ -53,19 +53,27 @@ public class BookingService {
 
         for(long id: userIds){
             User user = userRepository.findById(id).get();
-            this.addUserToBooking(user, booking.getId());
+            this.addUserToBooking(user, booking);
         }
 
         return booking;
     }
 
-    public void addUserToBooking (User user, Long id){
-        Booking booking;
-        booking = this.findBookingById(id).get();
+    public void addUserToBooking (User user, Booking booking){
+
         List<User> bookingUserList = booking.getUsers();
         bookingUserList.add(user);
         booking.setUsers(bookingUserList);
         this.addBooking(booking);
+    }
+
+    public void removerUserFromBooking(User user,Booking booking){
+
+        List<User> bookingUserList = booking.getUsers();
+        bookingUserList.remove(user);
+        booking.setUsers(bookingUserList);
+        this.addBooking(booking);
+
     }
 
     public void removeAllUserFromBooking (Long id){
@@ -157,10 +165,20 @@ public class BookingService {
                bookingToUpdate.setVenue(venue);
                 break;
 
-            case "users":
-
-                //TODO tomorrow
+            case "addUsers":
+                for(Long userID: bookingDTO.getUserIds()){
+                    User user = userRepository.findById(userID).get();
+                    this.addUserToBooking(user,bookingToUpdate);
+                }
                 break;
+            case "removeUsers":
+                for(Long userID: bookingDTO.getUserIds()) {
+                    User user = userRepository.findById(userID).get();
+                    this.removerUserFromBooking(user, bookingToUpdate);
+                }
+
+
+
             default:
                 break;
         }

@@ -46,6 +46,16 @@ public class BookingController {
         }
     }
 
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<Booking> updateBookingProp(@RequestBody BookingDTO bookingDTO, @PathVariable Long id,@RequestParam String property) {
+        if (bookingService.findBookingById(id).isPresent()) {
+            return new ResponseEntity<>(bookingService.updateBookingProp(bookingDTO, id,property), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Long> deleteBooking(@PathVariable Long id) {
         if(bookingService.findBookingById(id).isPresent()) {
