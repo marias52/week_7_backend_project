@@ -38,11 +38,13 @@ public class VenueService {
     }
 
     public void updateVenue(Venue venue, long id){
+        String newName = venue.getName();
         String newLocation = venue.getLocation();
         int newCapacity = venue.getCapacity();
 
         Venue existingVenue = this.findVenueById(id).get();
 
+        existingVenue.setName(newName);
         existingVenue.setLocation(newLocation);
         existingVenue.setCapacity(newCapacity);
 
