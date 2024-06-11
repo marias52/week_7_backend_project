@@ -31,8 +31,7 @@ public class Booking {
     @JoinColumn(name = "hobby_id")
     private Hobby hobby;
 
-    public Booking(long id, String time, String date, Venue venue, Hobby hobby) {
-        this.id = id;
+    public Booking(String time, String date, Venue venue, Hobby hobby) {
         this.time = time;
         this.date = date;
         this.venue = venue;
