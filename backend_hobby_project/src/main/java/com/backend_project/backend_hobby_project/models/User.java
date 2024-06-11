@@ -1,6 +1,7 @@
 package com.backend_project.backend_hobby_project.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -26,9 +27,12 @@ public class User {
     @Column(name = "biography")
     private String biography;
 
+
+    @JsonIgnoreProperties({"users"})
     @ManyToMany(mappedBy = "users")
     private List<Booking> bookings;
 
+    @JsonIgnoreProperties({"users"})
     @ManyToMany
     @JoinTable(
             name = "user_hobbies",

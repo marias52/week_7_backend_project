@@ -1,5 +1,6 @@
 package com.backend_project.backend_hobby_project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class Venue {
     @Column (name = "capacity")
     private int capacity;
 
+    @JsonIgnoreProperties({"venue"})
     @OneToMany(mappedBy = "venue")
     private List<Booking> bookings;
 
