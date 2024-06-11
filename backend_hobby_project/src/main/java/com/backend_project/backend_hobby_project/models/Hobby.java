@@ -1,6 +1,7 @@
 package com.backend_project.backend_hobby_project.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 
@@ -18,9 +19,11 @@ public class Hobby {
     @Column (name = "name")
     private String name;
 
+    @JsonIgnoreProperties( {"hobbies"})
     @ManyToMany (mappedBy = "hobbies")
     private List<User> users;
 
+    @JsonIgnoreProperties({"hobbies"})
     @OneToMany (mappedBy = "hobby")
     private List<Booking> bookings;
 
