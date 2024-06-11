@@ -91,6 +91,21 @@ public class BookingService {
     }
 
 
+    public void removeVenueFromBooking(long id){
+        Booking booking= this.bookingRepository.findById(id).get();
+        booking.setVenue(null);
+        this.addBooking(booking);
+    }
+
+    public void removeVenueFromAllBookings(long venueId){
+        for(Booking booking : this.findAllBookings()){
+            if(booking.getVenue() == venueRepository.findById(venueId).get()){
+                this.removeVenueFromBooking(venueId);
+            }
+        }
+    }
+
+
     public void deleteBooking (Long id){
         Booking booking = this.findBookingById(id).get();
         this.removeAllUserFromBooking(id);
