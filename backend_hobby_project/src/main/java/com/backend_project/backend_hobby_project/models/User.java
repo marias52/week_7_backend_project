@@ -26,12 +26,7 @@ public class User {
     @Column(name = "biography")
     private String biography;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_bookings",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "booking_id")
-    )
+    @ManyToMany(mappedBy = "users")
     private List<Booking> bookings;
 
     @ManyToMany
@@ -39,7 +34,6 @@ public class User {
             name = "user_hobbies",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "hobby_id")
-
     )
     private List<Hobby> hobbies;
 

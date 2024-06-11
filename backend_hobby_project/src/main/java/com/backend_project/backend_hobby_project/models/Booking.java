@@ -20,7 +20,12 @@ public class Booking {
     @Column(name = "date")
     private String date;
 
-    @ManyToMany(mappedBy = "bookings")
+    @ManyToMany
+    @JoinTable(
+            name = "user_bookings",
+            joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<User> users;
 
     @ManyToOne
@@ -88,5 +93,13 @@ public class Booking {
 
     public void setHobby(Hobby hobby) {
         this.hobby = hobby;
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
     }
 }

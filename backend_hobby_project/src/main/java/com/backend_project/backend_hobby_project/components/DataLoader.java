@@ -1,10 +1,7 @@
 package com.backend_project.backend_hobby_project.components;
 
-import com.backend_project.backend_hobby_project.models.BookingDTO;
-import com.backend_project.backend_hobby_project.models.Hobby;
-import com.backend_project.backend_hobby_project.models.User;
-import com.backend_project.backend_hobby_project.models.Venue;
-import com.backend_project.backend_hobby_project.services.BookingService;
+import com.backend_project.backend_hobby_project.models.*;
+import com.backend_project.backend_hobby_project.repositories.BookingRepository;
 import com.backend_project.backend_hobby_project.services.HobbyService;
 import com.backend_project.backend_hobby_project.services.UserService;
 import com.backend_project.backend_hobby_project.services.VenueService;
@@ -20,9 +17,6 @@ import java.util.List;
 public class DataLoader implements ApplicationRunner {
 
     @Autowired
-    BookingService bookingService;
-
-    @Autowired
     UserService userService;
 
     @Autowired
@@ -31,8 +25,17 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     VenueService venueService;
 
+    @Autowired
+    BookingRepository bookingRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        Hobby fiveAside = new Hobby("Five a Side");
+        hobbyService.addHobby(fiveAside);
+
+        Venue wembly = new Venue("Wembly", "Wembly", 90000);
+        venueService.addVenue(wembly);
+
         User sunny = new User("Sunny", 26, "Birmingham", "Lorem Ipsum");
         userService.addUser(sunny);
         User dan = new User("Dan", 22, "Coventry", "Lorem Ipsum");
@@ -40,18 +43,13 @@ public class DataLoader implements ApplicationRunner {
         User maria = new User("Maria", 25, "London", "Lorem Ipsum");
         userService.addUser(maria);
 
-        Hobby fiveAside = new Hobby("Five a Side");
-        hobbyService.addHobby(fiveAside);
+        List<User> users = new ArrayList<>();
+        users.add(sunny);
+        users.add(dan);
+        users.add(maria);
 
-        Venue wembly = new Venue("Wembly", "Wembly", 90000);
-        venueService.addVenue(wembly);
-
-        List<Long> userIds = new ArrayList<>();
-        userIds.add(sunny.getId());
-        userIds.add(dan.getId());
-        userIds.add(maria.getId());
-
-        BookingDTO bookingDTO = new BookingDTO("18:00", "11/06/2024", userIds, wembly.getId(), fiveAside.getId());
-        bookingService.makeBooking(bookingDTO);
+        Booking booking = new Booking("18:00", "11/06/2024", wembly, fiveAside);
+        booking.setUsers(users);
+        bookingRepository.save(booking);
     }
 }
