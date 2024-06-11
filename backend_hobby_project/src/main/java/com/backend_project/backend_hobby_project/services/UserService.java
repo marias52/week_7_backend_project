@@ -50,6 +50,7 @@ public class UserService {
         existingUser.setLocation(newLocation);
         existingUser.setBiography(newBio);
 
+        userRepository.save(existingUser);
     }
 
 

@@ -46,7 +46,7 @@ public class VenueService {
         existingVenue.setLocation(newLocation);
         existingVenue.setCapacity(newCapacity);
 
-
+        venueRepository.save(existingVenue);
 
     }
 
