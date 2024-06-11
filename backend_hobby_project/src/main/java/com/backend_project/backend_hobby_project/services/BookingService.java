@@ -38,7 +38,7 @@ public class BookingService {
         this.bookingRepository.save(booking);
     }
 
-    public void makeBooking(BookingDTO bookingDTO){
+    public Booking makeBooking(BookingDTO bookingDTO){
 
         Long hobbyId = bookingDTO.getHobbyId();
         Long venueId = bookingDTO.getVenueId();
@@ -55,6 +55,8 @@ public class BookingService {
             User user = userRepository.findById(id).get();
             this.addUserToBooking(user, booking.getId());
         }
+
+        return booking;
     }
 
     public void addUserToBooking (User user, Long id){
@@ -80,7 +82,7 @@ public class BookingService {
         bookingRepository.delete(booking);
     }
 
-    public void updateBooking (BookingDTO bookingDTO, Long id){
+    public Booking updateBooking (BookingDTO bookingDTO, Long id){
         Booking booking = this.findBookingById(id).get();
         Long hobbyId = bookingDTO.getHobbyId();
         Long venueId = bookingDTO.getVenueId();
@@ -103,6 +105,8 @@ public class BookingService {
         booking.setVenue(venue);
 
         bookingRepository.save(booking);
+
+        return booking;
     }
 
 }
