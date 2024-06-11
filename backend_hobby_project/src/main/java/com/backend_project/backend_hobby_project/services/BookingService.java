@@ -76,6 +76,21 @@ public class BookingService {
         this.addBooking(booking);
     }
 
+    public void removeHobbyFromBooking(long id){
+        Booking booking= this.bookingRepository.findById(id).get();
+        booking.setHobby(null);
+        this.addBooking(booking);
+    }
+
+    public void removeHobbyFromAllBookings(long hobbyId){
+        for(Booking booking : this.findAllBookings()){
+            if(booking.getHobby() == hobbyRepository.findById(hobbyId).get()){
+                this.removeHobbyFromBooking(hobbyId);
+            }
+        }
+    }
+
+
     public void deleteBooking (Long id){
         Booking booking = this.findBookingById(id).get();
         this.removeAllUserFromBooking(id);
