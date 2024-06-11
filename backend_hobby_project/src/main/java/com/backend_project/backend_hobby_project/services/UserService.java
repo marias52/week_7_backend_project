@@ -57,4 +57,28 @@ public class UserService {
 
         return existingUser;
     }
+
+    public User updateUserProp (UserDTO userDTO, long id, String property) {
+        User userToUpdate = this.findUserById(id).get();
+        switch (property) {
+            case "name":
+                userToUpdate.setName(userDTO.getName());
+                break;
+            case "age":
+                userToUpdate.setAge(userDTO.getAge());
+                break;
+            case "location":
+                userToUpdate.setLocation(userDTO.getLocation());
+                break;
+            case "biography":
+                userToUpdate.setBiography(userDTO.getBiography());
+                break;
+            default:
+                break;
+        }
+
+        userRepository.save(userToUpdate);
+
+        return userToUpdate;
+    }
 }
