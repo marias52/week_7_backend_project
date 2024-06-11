@@ -1,6 +1,7 @@
 package com.backend_project.backend_hobby_project.services;
 
 import com.backend_project.backend_hobby_project.models.Hobby;
+import com.backend_project.backend_hobby_project.models.HobbyDTO;
 import com.backend_project.backend_hobby_project.repositories.HobbyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,9 @@ public class HobbyService {
     @Autowired
     HobbyRepository hobbyRepository;
 
-    public void addHobby(Hobby hobby) {
+    public Hobby addHobby(Hobby hobby) {
         hobbyRepository.save(hobby);
+        return hobby;
     }
 
     public List<Hobby> getAllHobbies() {
@@ -34,11 +36,13 @@ public class HobbyService {
         hobbyRepository.delete(hobby);
     }
 
-    public void updateHobby(Hobby hobby, Long id) {
-        String hobbyName = hobby.getName();
+    public HobbyDTO updateHobby(HobbyDTO hobbyDTO, Long id) {
+        String hobbyName = hobbyDTO.getName();
         Hobby hobbyToUpdate = this.findHobbyById(id).get();
 
         hobbyToUpdate.setName(hobbyName);
         hobbyRepository.save(hobbyToUpdate);
+
+        return hobbyDTO;
     }
 }
