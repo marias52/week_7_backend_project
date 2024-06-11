@@ -139,4 +139,35 @@ public class BookingService {
         return booking;
     }
 
+    public Booking updateBookingProp (BookingDTO bookingDTO, long id, String property) {
+        Booking bookingToUpdate = this.findBookingById(id).get();
+        switch (property) {
+            case "time":
+                bookingToUpdate.setTime(bookingDTO.getTime());
+                break;
+            case "date":
+                bookingToUpdate.setDate(bookingDTO.getDate());
+                break;
+            case "hobby":
+                Hobby hobby = hobbyRepository.findById(bookingDTO.getHobbyId()).get();
+                bookingToUpdate.setHobby(hobby);
+                break;
+            case "venue":
+                Venue venue = venueRepository.findById(bookingDTO.getVenueId()).get();
+               bookingToUpdate.setVenue(venue);
+                break;
+
+            case "users":
+
+                //TODO tomorrow
+                break;
+            default:
+                break;
+        }
+
+        bookingRepository.save(bookingToUpdate);
+
+        return bookingToUpdate;
+    }
+
 }
