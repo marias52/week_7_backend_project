@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Optional<User>> getUser(Long id) {
+    public ResponseEntity<Optional<User>> getUser(@PathVariable Long id) {
         if(userService.findUserById(id).isPresent()) {
             return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
         } else {
@@ -50,6 +50,15 @@ public class UserController {
     public ResponseEntity<Long> deleteUser(@PathVariable Long id) {
         if (userService.findUserById(id).isPresent()) {
             return new ResponseEntity<>(userService.deleteUserById(id), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<User> updateUserProp(@RequestBody UserDTO userDTO, @PathVariable Long id, @RequestParam String property) {
+        if(userService.findUserById(id).isPresent()) {
+            return new ResponseEntity<>(userService.updateUserProp(userDTO, id, property), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
