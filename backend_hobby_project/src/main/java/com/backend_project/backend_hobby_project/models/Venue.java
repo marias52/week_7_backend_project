@@ -13,6 +13,9 @@ public class Venue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column (name = "name")
+    private String name;
+
     @Column (name = "location")
     private String location;
 
@@ -23,7 +26,8 @@ public class Venue {
     private List<Booking> bookings;
 
 
-    public Venue(String location, int capacity) {
+    public Venue(String name, String location, int capacity) {
+        this.name = name;
         this.location = location;
         this.capacity = capacity;
         this.bookings = new ArrayList<>();
@@ -35,6 +39,14 @@ public class Venue {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLocation() {
