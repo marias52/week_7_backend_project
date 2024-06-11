@@ -27,7 +27,6 @@ public class User {
     @Column(name = "biography")
     private String biography;
 
-
     @JsonIgnoreProperties({"users"})
     @ManyToMany(mappedBy = "users")
     private List<Booking> bookings;
