@@ -1,6 +1,7 @@
 package com.backend_project.backend_hobby_project.services;
 
 
+import com.backend_project.backend_hobby_project.models.Hobby;
 import com.backend_project.backend_hobby_project.models.User;
 import com.backend_project.backend_hobby_project.models.UserDTO;
 import com.backend_project.backend_hobby_project.repositories.UserRepository;
@@ -27,7 +28,7 @@ public class UserService {
         return this.userRepository.findById(id);
     }
 
-    public User addUser (User user){
+    public User addUser(User user){
         this.userRepository.save(user);
         return user;
     }
@@ -39,6 +40,17 @@ public class UserService {
 
     public void deleteUser (User user){
         this.userRepository.delete(user);
+    }
+
+    public void addHobbyToUser(Hobby hobby, User user) {
+        List<Hobby> userHobbies = user.getHobbies();
+        userHobbies.add(hobby);
+        user.setHobbies(userHobbies);
+        userRepository.save(user);
+    }
+
+    public void removeHobbyFromUser(Hobby hobby) {
+
     }
 
     public User updateUser (UserDTO userDTO, long id){
@@ -73,6 +85,8 @@ public class UserService {
             case "biography":
                 userToUpdate.setBiography(userDTO.getBiography());
                 break;
+            case "hobby":
+//                userToUpdate.setHobbies();
             default:
                 break;
         }
