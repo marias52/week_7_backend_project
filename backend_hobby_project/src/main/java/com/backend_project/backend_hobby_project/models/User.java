@@ -104,8 +104,15 @@ public class User {
     }
 
     public List<Booking> getBookings() {
+        if (this.isPrivate){
+            return null;
+        }
         return bookings;
     }
+
+//    public String getLol(){
+//        return "LOL";
+//    }
 
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
