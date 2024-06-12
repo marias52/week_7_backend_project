@@ -1,5 +1,6 @@
 package com.backend_project.backend_hobby_project.components;
 
+import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.*;
 import com.backend_project.backend_hobby_project.repositories.BookingRepository;
 import com.backend_project.backend_hobby_project.services.HobbyService;
@@ -36,11 +37,15 @@ public class DataLoader implements ApplicationRunner {
         Venue wembly = new Venue("Wembly", "Wembly", 90000);
         venueService.addVenue(wembly);
 
-        User sunny = new User("Sunny", 26, "Birmingham", "Lorem Ipsum", false);
+        List<DaysOfTheWeek> sunnyAvailability = new ArrayList<>();
+        sunnyAvailability.add(DaysOfTheWeek.FRIDAYMORNING);
+        sunnyAvailability.add(DaysOfTheWeek.FRIDAYAFTERNOON);
+
+        User sunny = new User("Sunny", 26, "Birmingham", "Lorem Ipsum", false,sunnyAvailability);
         userService.addUser(sunny);
-        User dan = new User("Dan", 22, "Coventry", "Lorem Ipsum", false);
+        User dan = new User("Dan", 22, "Coventry", "Lorem Ipsum", false,null);
         userService.addUser(dan);
-        User maria = new User("Maria", 25, "London", "Lorem Ipsum", true);
+        User maria = new User("Maria", 25, "London", "Lorem Ipsum", true,null);
         userService.addUser(maria);
 
         userService.addHobbyToUser(fiveAside.getId(), sunny.getId());

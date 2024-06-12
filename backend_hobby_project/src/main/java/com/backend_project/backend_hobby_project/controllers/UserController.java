@@ -1,5 +1,6 @@
 package com.backend_project.backend_hobby_project.controllers;
 
+import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.User;
 import com.backend_project.backend_hobby_project.models.UserDTO;
 import com.backend_project.backend_hobby_project.services.UserService;
@@ -78,7 +79,7 @@ public class UserController {
 
 //
 //    @GetMapping (value = "/{id}/availability")
-//    public ResponseEntity<Optional<DaysOfTheWeek>> getUserAvailabilityById(@PathVariable Long id @PathVariable DaysOfTheWeek){
+//    public ResponseEntity<Optional<DaysOfTheWeek>> getUserAvailabilityById(@PathVariable Long id @PathVariable String availabilityk){
 //        if (availability != null){
 //            return new ResponseEntity<>(availability, HttpStatus.OK);
 //        }else {

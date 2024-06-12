@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PrivateUserDTO {
 
-    public class UserDTO {
+
         private String name;
         private int age;
         private String location;
@@ -12,7 +12,7 @@ public class PrivateUserDTO {
         private boolean isPrivate;
         private List<Long> hobbyIds;
 
-        public UserDTO(String name, int age, String location, String biography, List<Long> hobbyIds, boolean isPrivate) {
+        public PrivateUserDTO(String name, int age, String location, String biography, List<Long> hobbyIds, boolean isPrivate) {
             this.name = name;
             this.age = age;
             this.location = location;
@@ -21,7 +21,7 @@ public class PrivateUserDTO {
             this.hobbyIds = hobbyIds;
         }
 
-        public UserDTO() {
+        public PrivateUserDTO() {
         }
 
         public String getName() {
@@ -72,4 +72,3 @@ public class PrivateUserDTO {
             this.isPrivate = isPrivate;
         }
     }
-}

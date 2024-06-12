@@ -1,6 +1,7 @@
 package com.backend_project.backend_hobby_project.models;
 
 
+import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -30,9 +31,9 @@ public class User {
     @Column (name = "private")
     private boolean isPrivate;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column (name = "availability")
-//    private DaysOfTheWeek availability;
+    @Enumerated(EnumType.STRING)
+    @Column (name = "availability")
+    private List<DaysOfTheWeek> availability;
 
     @JsonIgnoreProperties({"users"})
     @ManyToMany(mappedBy = "users")
@@ -47,13 +48,13 @@ public class User {
     )
     private List<Hobby> hobbies;
 
-    public User(String name, int age, String location, String biography, boolean isPrivate) {
+    public User(String name, int age, String location, String biography, boolean isPrivate,List<DaysOfTheWeek> availability) {
         this.name = name;
         this.age = age;
         this.location = location;
         this.biography = biography;
         this.isPrivate = isPrivate;
-//        this.availability = availability;
+        this.availability = availability;
         this.hobbies = new ArrayList<>();
         this.bookings = new ArrayList<>();
 
@@ -124,5 +125,14 @@ public class User {
 
     public void setIsPrivate(boolean isPrivate) {
         this.isPrivate = isPrivate;
+    }
+
+
+    public List<DaysOfTheWeek> getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(List<DaysOfTheWeek> availability) {
+        this.availability = availability;
     }
 }
