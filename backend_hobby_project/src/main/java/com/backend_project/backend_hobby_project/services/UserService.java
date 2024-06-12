@@ -2,7 +2,6 @@ package com.backend_project.backend_hobby_project.services;
 
 import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.Hobby;
-import com.backend_project.backend_hobby_project.models.PrivateUserDTO;
 import com.backend_project.backend_hobby_project.models.User;
 import com.backend_project.backend_hobby_project.models.UserDTO;
 import com.backend_project.backend_hobby_project.repositories.UserRepository;
@@ -74,6 +73,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void setUserAvailability(List<DaysOfTheWeek> daysOfTheWeek,Long userId){
+        User user = this.findUserById(userId).get();
+        user.setAvailability(daysOfTheWeek);
+        userRepository.save(user);
+    }
+
     @Transactional
     public void addHobbyToUser(Long hobbyId, Long userId) {
         if(hobbyService.findHobbyById(hobbyId).isEmpty()) {
@@ -110,6 +115,7 @@ public class UserService {
         String newLocation = userDTO.getLocation();
         String newBio = userDTO.getBiography();
         boolean newPrivacy = userDTO.getIsPrivate();
+        List<DaysOfTheWeek> availability = userDTO.getAvailability();
 
         User existingUser = this.findUserById(id).get();
         existingUser.setName(newName);
@@ -117,6 +123,7 @@ public class UserService {
         existingUser.setLocation(newLocation);
         existingUser.setBiography(newBio);
         existingUser.setIsPrivate(newPrivacy);
+        existingUser.setAvailability(availability);
         userRepository.save(existingUser);
 
         return existingUser;
@@ -144,6 +151,9 @@ public class UserService {
             case "isPrivacy":
                 this.setUserPrivacy(userDTO.getIsPrivate(), userId);
                 break;
+            case "availability":
+                this.setUserAvailability(userDTO.getAvailability(),userId);
+                break;
             case "addHobby":
                 for(Long hobbyId : userDTO.getHobbyIds()) {
                     this.addHobbyToUser(hobbyId, userId);
@@ -163,8 +173,8 @@ public class UserService {
         return userToUpdate;
     }
 
-    public List<User> getPrivateUsers (PrivateUserDTO privateUserDTO) {
-        return userRepository.findByIsPrivateTrue(privateUserDTO);
+    public List<User> getPrivateUsers () {
+        return userRepository.findByIsPrivateTrue();
     }
 
     public List<User> getPublicUsers(){
@@ -172,8 +182,9 @@ public class UserService {
 
     }
 
-    public Optional<DaysOfTheWeek> getUserAvailabilityById(Long id) {
-        return this.userRepository.getUserAvailabilityById(id);
+    public List<DaysOfTheWeek> getUserAvailabilityById(Long userId) {
+        return this.userRepository.findAvailabilityById(userId);
     }
+
 
 }

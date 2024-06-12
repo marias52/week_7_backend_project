@@ -1,5 +1,7 @@
 package com.backend_project.backend_hobby_project.models;
 
+import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +11,17 @@ public class UserDTO {
     private String location;
     private String biography;
     private boolean isPrivate;
+    private List<DaysOfTheWeek> availability;
     private List<Long> bookingIds;
     private List<Long> hobbyIds;
 
-    public UserDTO(String name, int age, String location, String biography, List<Long> bookingIds, List<Long> hobbyIds, boolean isPrivate) {
+    public UserDTO(String name, int age, String location, String biography, List<Long> bookingIds, List<Long> hobbyIds, boolean isPrivate,List<DaysOfTheWeek> availability) {
         this.name = name;
         this.age = age;
         this.location = location;
         this.biography = biography;
         this.isPrivate = isPrivate;
+        this.availability = availability;
         this.bookingIds = bookingIds;
         this.hobbyIds = hobbyIds;
     }
@@ -79,5 +83,13 @@ public class UserDTO {
 
     public void setIsPrivate(boolean isPrivate) {
         this.isPrivate = isPrivate;
+    }
+
+    public List<DaysOfTheWeek> getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(List<DaysOfTheWeek> availability) {
+        this.availability = availability;
     }
 }
