@@ -117,6 +117,8 @@ public class BookingService {
     public void deleteBooking (Long id){
         Booking booking = this.findBookingById(id).get();
         this.removeAllUserFromBooking(id);
+        this.removeHobbyFromBooking(id);
+        this.removeVenueFromBooking(id);
         bookingRepository.delete(booking);
     }
 
