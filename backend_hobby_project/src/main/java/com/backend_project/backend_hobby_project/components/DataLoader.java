@@ -36,11 +36,11 @@ public class DataLoader implements ApplicationRunner {
         Venue wembly = new Venue("Wembly", "Wembly", 90000);
         venueService.addVenue(wembly);
 
-        User sunny = new User("Sunny", 26, "Birmingham", "Lorem Ipsum");
+        User sunny = new User("Sunny", 26, "Birmingham", "Lorem Ipsum", false);
         userService.addUser(sunny);
-        User dan = new User("Dan", 22, "Coventry", "Lorem Ipsum");
+        User dan = new User("Dan", 22, "Coventry", "Lorem Ipsum", false);
         userService.addUser(dan);
-        User maria = new User("Maria", 25, "London", "Lorem Ipsum");
+        User maria = new User("Maria", 25, "London", "Lorem Ipsum", true);
         userService.addUser(maria);
 
         userService.addHobbyToUser(fiveAside.getId(), sunny.getId());

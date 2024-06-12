@@ -8,14 +8,16 @@ public class UserDTO {
     private int age;
     private String location;
     private String biography;
+    private boolean isPrivate;
     private List<Long> bookingIds;
     private List<Long> hobbyIds;
 
-    public UserDTO(String name, int age, String location, String biography, List<Long> bookingIds, List<Long> hobbyIds) {
+    public UserDTO(String name, int age, String location, String biography, List<Long> bookingIds, List<Long> hobbyIds, boolean isPrivate) {
         this.name = name;
         this.age = age;
         this.location = location;
         this.biography = biography;
+        this.isPrivate = isPrivate;
         this.bookingIds = bookingIds;
         this.hobbyIds = hobbyIds;
     }
@@ -69,5 +71,13 @@ public class UserDTO {
 
     public void setHobbyIds(List<Long> hobbyIds) {
         this.hobbyIds = hobbyIds;
+    }
+
+    public boolean getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 }

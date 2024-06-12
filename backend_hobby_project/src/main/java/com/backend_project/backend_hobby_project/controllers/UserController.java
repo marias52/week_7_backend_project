@@ -65,14 +65,17 @@ public class UserController {
     }
 
     @GetMapping (value = "/private")
-    public ResponseEntity<List<User>> getPrivateUsers(@RequestParam String isPrivateStr) {
-        if(isPrivateStr.equalsIgnoreCase("true")) {
-            List<User> privateUsers = userService.getPrivateUsers();
+    public ResponseEntity<List<User>> getPrivateUsers() {
+         {
             return new ResponseEntity<>(userService.getPrivateUsers(), HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping (value = "/public")
+    public ResponseEntity<List<User>> getAllPublicUsers() {
+            return new ResponseEntity<>(userService.getPublicUsers(), HttpStatus.OK);
+    }
+
 //
 //    @GetMapping (value = "/{id}/availability")
 //    public ResponseEntity<Optional<DaysOfTheWeek>> getUserAvailabilityById(@PathVariable Long id @PathVariable DaysOfTheWeek){
