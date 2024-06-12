@@ -146,4 +146,13 @@ public class UserService {
 
         return userToUpdate;
     }
+
+    public List<User> getPrivateUsers () {
+        return userRepository.findPrivateUsers();
+    }
+
+//    public Optional<DaysOfTheWeek> getUserAvailabilityById(Long id) {
+//        return this.userRepository.getUserAvailabilityById(id);
+//    }
+
 }

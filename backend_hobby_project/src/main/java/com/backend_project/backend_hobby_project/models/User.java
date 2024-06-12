@@ -27,6 +27,13 @@ public class User {
     @Column(name = "biography")
     private String biography;
 
+    @Column (name = "private")
+    private String isPrivate;
+
+//    @Enumerated(EnumType.STRING)
+//    @Column (name = "availability")
+//    private DaysOfTheWeek availability;
+
     @JsonIgnoreProperties({"users"})
     @ManyToMany(mappedBy = "users")
     private List<Booking> bookings;
@@ -40,13 +47,16 @@ public class User {
     )
     private List<Hobby> hobbies;
 
-    public User(String name, int age, String location, String biography) {
+    public User(String name, int age, String location, String biography, String isPrivate) {
         this.name = name;
         this.age = age;
         this.location = location;
         this.biography = biography;
+        this.isPrivate = isPrivate;
+//        this.availability = availability;
         this.hobbies = new ArrayList<>();
         this.bookings = new ArrayList<>();
+
     }
 
     public User() {
@@ -106,5 +116,13 @@ public class User {
 
     public void setHobbies(List<Hobby> hobbies) {
         this.hobbies = hobbies;
+    }
+
+    public String getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(String isPrivate) {
+        this.isPrivate = isPrivate;
     }
 }
