@@ -54,7 +54,6 @@ public class BookingService {
         Long bookingId = booking.getId();
 
         for(long id: userIds){
-
             this.addUserToBooking(id, bookingId);
         }
 
@@ -66,6 +65,11 @@ public class BookingService {
         Booking booking = this.findBookingById(bookingId).get();
         User user = userRepository.findById(userId).get();
         List<User> bookingUserList = booking.getUsers();
+
+        if(bookingUserList.contains(user)) {
+            return;
+        }
+
         bookingUserList.add(user);
         booking.setUsers(bookingUserList);
         this.addBooking(booking);
@@ -140,7 +144,6 @@ public class BookingService {
         Booking booking = this.findBookingById(bookingId).get();
         booking.setVenue(venue);
         bookingRepository.save(booking);
-
     }
 
     public void deleteBooking(Long id){
@@ -162,11 +165,13 @@ public class BookingService {
         Hobby hobby = hobbyRepository.findById(hobbyId).get();
 
         List<User> listToUpdate = booking.getUsers();
+        listToUpdate.clear();
 
         for(Long uId: userIds){
             User user = userRepository.findById(uId).get();
             listToUpdate.add(user);
         }
+
         booking.setUsers(listToUpdate);
         booking.setDate(date);
         booking.setHobby(hobby);
