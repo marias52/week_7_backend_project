@@ -4,6 +4,7 @@ import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.Hobby;
 import com.backend_project.backend_hobby_project.models.User;
 import com.backend_project.backend_hobby_project.models.UserDTO;
+import com.backend_project.backend_hobby_project.repositories.HobbyRepository;
 import com.backend_project.backend_hobby_project.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UserService {
     UserRepository userRepository;
 
     @Autowired
-    HobbyService hobbyService;
+    HobbyRepository hobbyRepository;
 
     public List<User> findAllUsers(){
         return this.userRepository.findAll();
@@ -81,10 +82,10 @@ public class UserService {
 
     @Transactional
     public void addHobbyToUser(Long hobbyId, Long userId) {
-        if(hobbyService.findHobbyById(hobbyId).isEmpty()) {
+        if(hobbyRepository.findById(hobbyId).isEmpty()) {
             return;
         }
-        Hobby hobby = hobbyService.findHobbyById(hobbyId).get();
+        Hobby hobby = hobbyRepository.findById(hobbyId).get();
         User user = this.findUserById(userId).get();
         List<Hobby> userHobbies = user.getHobbies();
 
@@ -98,10 +99,10 @@ public class UserService {
     }
 
     public void removeHobbyFromUser(Long hobbyId, Long userId) {
-        if(hobbyService.findHobbyById(hobbyId).isEmpty()) {
+        if(hobbyRepository.findById(hobbyId).isEmpty()) {
             return;
         }
-        Hobby hobby = hobbyService.findHobbyById(hobbyId).get();
+        Hobby hobby = hobbyRepository.findById(hobbyId).get();
         User user = this.findUserById(userId).get();
         List<Hobby> userHobbies = user.getHobbies();
         userHobbies.remove(hobby);
