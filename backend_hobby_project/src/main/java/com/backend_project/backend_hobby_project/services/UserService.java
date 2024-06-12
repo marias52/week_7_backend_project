@@ -14,10 +14,11 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    HobbyService hobbyService;
 
     public List<User> findAllUsers(){
         return this.userRepository.findAll();
@@ -33,27 +34,64 @@ public class UserService {
         return user;
     }
 
-    public long deleteUserById (long id){
+    public long deleteUserById (Long id){
         this.userRepository.deleteById(id);
         return id;
     }
 
-    public void deleteUser (User user){
+    public void deleteUser(User user){
         this.userRepository.delete(user);
     }
 
-    public void addHobbyToUser(Hobby hobby, User user) {
+    public void setUserName(String name, Long userId) {
+        User user = this.findUserById(userId).get();
+        user.setName(name);
+        userRepository.save(user);
+    }
+
+    public void setUserAge(int age, Long userId) {
+        User user = this.findUserById(userId).get();
+        user.setAge(age);
+        userRepository.save(user);
+    }
+
+    public void setUserLocation(String location, Long userId) {
+        User user = this.findUserById(userId).get();
+        user.setLocation(location);
+        userRepository.save(user);
+    }
+
+    public void setUserBiography(String biography, Long userId) {
+        User user = this.findUserById(userId).get();
+        user.setBiography(biography);
+        userRepository.save(user);
+    }
+
+    public void addHobbyToUser(Long hobbyId, Long userId) {
+        if(hobbyService.findHobbyById(hobbyId).isEmpty()) {
+            return;
+        }
+        Hobby hobby = hobbyService.findHobbyById(hobbyId).get();
+        User user = this.findUserById(userId).get();
         List<Hobby> userHobbies = user.getHobbies();
         userHobbies.add(hobby);
         user.setHobbies(userHobbies);
         userRepository.save(user);
     }
 
-    public void removeHobbyFromUser(Hobby hobby) {
-
+    public void removeHobbyFromUser(Long hobbyId, Long userId) {
+        if(hobbyService.findHobbyById(hobbyId).isEmpty()) {
+            return;
+        }
+        Hobby hobby = hobbyService.findHobbyById(hobbyId).get();
+        User user = this.findUserById(userId).get();
+        List<Hobby> userHobbies = user.getHobbies();
+        userHobbies.remove(hobby);
+        user.setHobbies(userHobbies);
+        userRepository.save(user);
     }
 
-    public User updateUser (UserDTO userDTO, long id){
+    public User updateUser (UserDTO userDTO, Long id){
         String newName = userDTO.getName();
         int newAge = userDTO.getAge();
         String newLocation = userDTO.getLocation();
@@ -70,28 +108,38 @@ public class UserService {
         return existingUser;
     }
 
-    public User updateUserProp (UserDTO userDTO, long id, String property) {
-        User userToUpdate = this.findUserById(id).get();
+    public User updateUserProp (UserDTO userDTO, Long userId, String property) {
+
+        if(this.findUserById(userId).isEmpty()) {
+            return null;
+        }
+
         switch (property) {
             case "name":
-                userToUpdate.setName(userDTO.getName());
+                this.setUserName(userDTO.getName(), userId);
                 break;
             case "age":
-                userToUpdate.setAge(userDTO.getAge());
+                this.setUserAge(userDTO.getAge(), userId);
                 break;
             case "location":
-                userToUpdate.setLocation(userDTO.getLocation());
+                this.setUserLocation(userDTO.getLocation(), userId);
                 break;
             case "biography":
-                userToUpdate.setBiography(userDTO.getBiography());
+                this.setUserBiography(userDTO.getBiography(), userId);
                 break;
-            case "hobby":
-//                userToUpdate.setHobbies();
+            case "addHobby":
+                for(Long hobbyId : userDTO.getHobbyIds()) {
+                    this.addHobbyToUser(hobbyId, userId);
+                }
+            case "removeHobby":
+                for(Long hobbyId : userDTO.getHobbyIds()) {
+                    this.removeHobbyFromUser(hobbyId, userId);
+                }
             default:
                 break;
         }
 
-        userRepository.save(userToUpdate);
+        User userToUpdate = this.findUserById(userId).get();
 
         return userToUpdate;
     }
