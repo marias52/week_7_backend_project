@@ -3,6 +3,7 @@ package com.backend_project.backend_hobby_project.components;
 import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.*;
 import com.backend_project.backend_hobby_project.repositories.BookingRepository;
+import com.backend_project.backend_hobby_project.services.BookingService;
 import com.backend_project.backend_hobby_project.services.HobbyService;
 import com.backend_project.backend_hobby_project.services.UserService;
 import com.backend_project.backend_hobby_project.services.VenueService;
@@ -25,6 +26,9 @@ public class DataLoader implements ApplicationRunner {
 
     @Autowired
     VenueService venueService;
+
+    @Autowired
+    BookingService bookingService;
 
     @Autowired
     BookingRepository bookingRepository;
@@ -52,13 +56,11 @@ public class DataLoader implements ApplicationRunner {
         userService.addHobbyToUser(fiveAside.getId(), dan.getId());
         userService.addHobbyToUser(fiveAside.getId(), maria.getId());
 
-        List<User> users = new ArrayList<>();
-        users.add(sunny);
-        users.add(dan);
-        users.add(maria);
-
         Booking booking = new Booking("18:00", "11/06/2024", wembly, fiveAside);
-        booking.setUsers(users);
+        bookingRepository.save(booking);
+        bookingService.addUserToBooking(sunny.getId(), booking.getId());
+        bookingService.addUserToBooking(dan.getId(), booking.getId());
+        bookingService.addUserToBooking(maria.getId(), booking.getId());
         bookingRepository.save(booking);
     }
 }

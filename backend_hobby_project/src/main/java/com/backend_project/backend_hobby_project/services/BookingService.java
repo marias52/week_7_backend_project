@@ -43,11 +43,16 @@ public class BookingService {
 
         Long hobbyId = bookingDTO.getHobbyId();
         Long venueId = bookingDTO.getVenueId();
-        List<Long> userIds = bookingDTO.getUserIds();
-        String date = bookingDTO.getDate();
-        String time = bookingDTO.getTime();
         Venue venue = venueRepository.findById(venueId).get();
         Hobby hobby = hobbyRepository.findById(hobbyId).get();
+        List<Long> userIds = bookingDTO.getUserIds();
+
+        if(venue.getCapacity() - userIds.size() < 0) {
+            return null;
+        }
+
+        String date = bookingDTO.getDate();
+        String time = bookingDTO.getTime();
 
         Booking booking = new Booking(time, date, venue, hobby);
         this.addBooking(booking);
@@ -63,6 +68,7 @@ public class BookingService {
     @Transactional
     public void addUserToBooking (Long userId, Long bookingId){
         Booking booking = this.findBookingById(bookingId).get();
+        Venue venue = booking.getVenue();
         User user = userRepository.findById(userId).get();
         List<User> bookingUserList = booking.getUsers();
 
@@ -73,13 +79,18 @@ public class BookingService {
         bookingUserList.add(user);
         booking.setUsers(bookingUserList);
         this.addBooking(booking);
+        venue.reduceCapacity();
+        venueRepository.save(venue);
     }
 
     public void removerUserFromBooking(Long userId, Long bookingId){
         Booking booking = this.findBookingById(bookingId).get();
         User user = userRepository.findById(userId).get();
+        Venue venue = booking.getVenue();
         List<User> bookingUserList = booking.getUsers();
         bookingUserList.remove(user);
+        venue.increaseCapacity();
+        venueRepository.save(venue);
         booking.setUsers(bookingUserList);
         this.addBooking(booking);
     }
@@ -87,6 +98,9 @@ public class BookingService {
     public void removeAllUserFromBooking (Long id){
         Booking booking = this.findBookingById(id).get();
         List<User> listOfUsers = booking.getUsers();
+        Venue venue = booking.getVenue();
+        venue.setCapacity(venue.getCapacity() + listOfUsers.size());
+        venueRepository.save(venue);
         listOfUsers.clear();
         booking.setUsers(listOfUsers);
         this.addBooking(booking);

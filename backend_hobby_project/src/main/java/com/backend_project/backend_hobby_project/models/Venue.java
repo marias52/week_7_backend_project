@@ -67,6 +67,14 @@ public class Venue {
         this.capacity = capacity;
     }
 
+    public void reduceCapacity() {
+        this.capacity--;
+    }
+
+    public void increaseCapacity() {
+        this.capacity++;
+    }
+
     public List<Booking> getBookings() {
         return bookings;
     }
