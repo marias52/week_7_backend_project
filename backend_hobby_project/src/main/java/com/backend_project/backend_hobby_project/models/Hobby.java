@@ -19,11 +19,11 @@ public class Hobby {
     @Column (name = "name")
     private String name;
 
-    @JsonIgnoreProperties( {"hobbies"})
-    @ManyToMany (mappedBy = "hobbies")
+    @JsonIgnoreProperties( {"hobbies", "bookings"})
+    @ManyToMany(mappedBy = "hobbies")
     private List<User> users;
 
-    @JsonIgnoreProperties({"hobbies"})
+    @JsonIgnoreProperties({"hobby"})
     @OneToMany (mappedBy = "hobby")
     private List<Booking> bookings;
 

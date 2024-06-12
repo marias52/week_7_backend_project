@@ -5,6 +5,7 @@ import com.backend_project.backend_hobby_project.models.Hobby;
 import com.backend_project.backend_hobby_project.models.User;
 import com.backend_project.backend_hobby_project.models.UserDTO;
 import com.backend_project.backend_hobby_project.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,6 @@ public class UserService {
     public List<User> findAllUsers(){
         return this.userRepository.findAll();
     }
-
 
     public Optional<User> findUserById( long id) {
         return this.userRepository.findById(id);
@@ -67,6 +67,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void addHobbyToUser(Long hobbyId, Long userId) {
         if(hobbyService.findHobbyById(hobbyId).isEmpty()) {
             return;
@@ -131,10 +132,12 @@ public class UserService {
                 for(Long hobbyId : userDTO.getHobbyIds()) {
                     this.addHobbyToUser(hobbyId, userId);
                 }
+                break;
             case "removeHobby":
                 for(Long hobbyId : userDTO.getHobbyIds()) {
                     this.removeHobbyFromUser(hobbyId, userId);
                 }
+                break;
             default:
                 break;
         }

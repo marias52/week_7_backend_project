@@ -43,6 +43,10 @@ public class DataLoader implements ApplicationRunner {
         User maria = new User("Maria", 25, "London", "Lorem Ipsum");
         userService.addUser(maria);
 
+        userService.addHobbyToUser(fiveAside.getId(), sunny.getId());
+        userService.addHobbyToUser(fiveAside.getId(), dan.getId());
+        userService.addHobbyToUser(fiveAside.getId(), maria.getId());
+
         List<User> users = new ArrayList<>();
         users.add(sunny);
         users.add(dan);

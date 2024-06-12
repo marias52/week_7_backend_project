@@ -31,7 +31,7 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private List<Booking> bookings;
 
-    @JsonIgnoreProperties({"users"})
+    @JsonIgnoreProperties({"users", "bookings"})
     @ManyToMany
     @JoinTable(
             name = "user_hobbies",
@@ -39,7 +39,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "hobby_id")
     )
     private List<Hobby> hobbies;
-
 
     public User(String name, int age, String location, String biography) {
         this.name = name;
