@@ -21,7 +21,7 @@ public class Booking {
     @Column(name = "date")
     private String date;
 
-    @JsonIgnoreProperties({"bookings"})
+    @JsonIgnoreProperties({"bookings", "hobbies"})
     @ManyToMany
     @JoinTable(
             name = "user_bookings",
@@ -35,7 +35,7 @@ public class Booking {
     @JoinColumn(name = "venue_id")
     private Venue venue;
 
-    @JsonIgnoreProperties({"bookings"})
+    @JsonIgnoreProperties({"bookings", "users"})
     @ManyToOne
     @JoinColumn(name = "hobby_id")
     private Hobby hobby;
