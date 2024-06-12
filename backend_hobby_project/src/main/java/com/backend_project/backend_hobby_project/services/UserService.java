@@ -1,6 +1,5 @@
 package com.backend_project.backend_hobby_project.services;
 
-
 import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.Hobby;
 import com.backend_project.backend_hobby_project.models.PrivateUserDTO;
@@ -83,6 +82,11 @@ public class UserService {
         Hobby hobby = hobbyService.findHobbyById(hobbyId).get();
         User user = this.findUserById(userId).get();
         List<Hobby> userHobbies = user.getHobbies();
+
+        if(userHobbies.contains(hobby)) {
+            return;
+        }
+
         userHobbies.add(hobby);
         user.setHobbies(userHobbies);
         userRepository.save(user);
