@@ -3,7 +3,6 @@ package com.backend_project.backend_hobby_project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
 
 import java.util.ArrayList;
 import java.util.List;
