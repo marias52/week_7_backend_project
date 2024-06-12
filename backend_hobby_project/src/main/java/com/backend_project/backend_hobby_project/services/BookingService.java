@@ -59,21 +59,20 @@ public class BookingService {
         return booking;
     }
 
-    public void addUserToBooking (User user, Booking booking){
-
+    public void addUserToBooking (Long userId, Booking booking){
+        User user = userRepository.findById(userId).get();
         List<User> bookingUserList = booking.getUsers();
         bookingUserList.add(user);
         booking.setUsers(bookingUserList);
         this.addBooking(booking);
     }
 
-    public void removerUserFromBooking(User user,Booking booking){
-
+    public void removerUserFromBooking(Long userId, Booking booking){
+        User user = userRepository.findById(userId).get();
         List<User> bookingUserList = booking.getUsers();
         bookingUserList.remove(user);
         booking.setUsers(bookingUserList);
         this.addBooking(booking);
-
     }
 
     public void removeAllUserFromBooking (Long id){
@@ -85,7 +84,7 @@ public class BookingService {
     }
 
     public void removeHobbyFromBooking(long id){
-        Booking booking= this.bookingRepository.findById(id).get();
+        Booking booking = this.bookingRepository.findById(id).get();
         booking.setHobby(null);
         this.addBooking(booking);
     }
@@ -98,9 +97,8 @@ public class BookingService {
         }
     }
 
-
     public void removeVenueFromBooking(long id){
-        Booking booking= this.bookingRepository.findById(id).get();
+        Booking booking = this.bookingRepository.findById(id).get();
         booking.setVenue(null);
         this.addBooking(booking);
     }
@@ -113,8 +111,13 @@ public class BookingService {
         }
     }
 
+    public void setTimeForBooking(String time, Long bookingId) {
+        Booking booking = this.findBookingById(bookingId).get();
+        booking.setTime(time);
+        bookingRepository.save(booking);
+    }
 
-    public void deleteBooking (Long id){
+    public void deleteBooking(Long id){
         Booking booking = this.findBookingById(id).get();
         this.removeAllUserFromBooking(id);
         this.removeHobbyFromBooking(id);
@@ -149,11 +152,10 @@ public class BookingService {
         return booking;
     }
 
-    public Booking updateBookingProp (BookingDTO bookingDTO, long id, String property) {
-        Booking bookingToUpdate = this.findBookingById(id).get();
+    public Booking updateBookingProp (BookingDTO bookingDTO, long bookingId, String property) {
         switch (property) {
             case "time":
-                bookingToUpdate.setTime(bookingDTO.getTime());
+                setTimeForBooking(bookingDTO.getTime(), bookingId);
                 break;
             case "date":
                 bookingToUpdate.setDate(bookingDTO.getDate());
@@ -164,28 +166,21 @@ public class BookingService {
                 break;
             case "venue":
                 Venue venue = venueRepository.findById(bookingDTO.getVenueId()).get();
-               bookingToUpdate.setVenue(venue);
+                bookingToUpdate.setVenue(venue);
                 break;
-
             case "addUsers":
                 for(Long userID: bookingDTO.getUserIds()){
-                    User user = userRepository.findById(userID).get();
-                    this.addUserToBooking(user,bookingToUpdate);
+                    this.addUserToBooking(userID, bookingToUpdate);
                 }
                 break;
             case "removeUsers":
                 for(Long userID: bookingDTO.getUserIds()) {
-                    User user = userRepository.findById(userID).get();
-                    this.removerUserFromBooking(user, bookingToUpdate);
+                    this.removerUserFromBooking(userID, bookingToUpdate);
                 }
-
-
-
+                break;
             default:
                 break;
         }
-
-        bookingRepository.save(bookingToUpdate);
 
         return bookingToUpdate;
     }
