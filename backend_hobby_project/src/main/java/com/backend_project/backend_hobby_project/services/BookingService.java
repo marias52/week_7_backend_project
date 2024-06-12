@@ -5,6 +5,7 @@ import com.backend_project.backend_hobby_project.repositories.BookingRepository;
 import com.backend_project.backend_hobby_project.repositories.HobbyRepository;
 import com.backend_project.backend_hobby_project.repositories.UserRepository;
 import com.backend_project.backend_hobby_project.repositories.VenueRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +61,7 @@ public class BookingService {
         return booking;
     }
 
+    @Transactional
     public void addUserToBooking (Long userId, Long bookingId){
         Booking booking = this.findBookingById(bookingId).get();
         User user = userRepository.findById(userId).get();

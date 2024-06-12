@@ -21,7 +21,6 @@ public class Booking {
     @Column(name = "date")
     private String date;
 
-
     @JsonIgnoreProperties({"bookings"})
     @ManyToMany
     @JoinTable(
