@@ -50,16 +50,18 @@ public class BookingService {
 
         Booking booking = new Booking(time, date, venue, hobby);
         this.addBooking(booking);
+        Long bookingId = booking.getId();
 
         for(long id: userIds){
-            User user = userRepository.findById(id).get();
-            this.addUserToBooking(user, booking);
+
+            this.addUserToBooking(id, bookingId);
         }
 
         return booking;
     }
 
-    public void addUserToBooking (Long userId, Booking booking){
+    public void addUserToBooking (Long userId, Long bookingId){
+        Booking booking = this.findBookingById(bookingId).get();
         User user = userRepository.findById(userId).get();
         List<User> bookingUserList = booking.getUsers();
         bookingUserList.add(user);
@@ -67,7 +69,8 @@ public class BookingService {
         this.addBooking(booking);
     }
 
-    public void removerUserFromBooking(Long userId, Booking booking){
+    public void removerUserFromBooking(Long userId, Long bookingId){
+        Booking booking = this.findBookingById(bookingId).get();
         User user = userRepository.findById(userId).get();
         List<User> bookingUserList = booking.getUsers();
         bookingUserList.remove(user);
@@ -117,6 +120,27 @@ public class BookingService {
         bookingRepository.save(booking);
     }
 
+    public void setDateForBooking(String date, Long bookingId){
+        Booking booking = this.findBookingById(bookingId).get();
+        booking.setDate(date);
+        bookingRepository.save(booking);
+    }
+
+    public void setHobbyForBooking(Long hobbyId,Long bookingId){
+        Hobby hobby = this.hobbyRepository.findById(hobbyId).get();
+        Booking booking = this.findBookingById(bookingId).get();
+        booking.setHobby(hobby);
+        bookingRepository.save(booking);
+    }
+
+    public void setVenueForBooking(Long venueId, Long bookingId){
+        Venue venue = this.venueRepository.findById(venueId).get();
+        Booking booking = this.findBookingById(bookingId).get();
+        booking.setVenue(venue);
+        bookingRepository.save(booking);
+
+    }
+
     public void deleteBooking(Long id){
         Booking booking = this.findBookingById(id).get();
         this.removeAllUserFromBooking(id);
@@ -158,31 +182,29 @@ public class BookingService {
                 setTimeForBooking(bookingDTO.getTime(), bookingId);
                 break;
             case "date":
-                bookingToUpdate.setDate(bookingDTO.getDate());
+                setDateForBooking(bookingDTO.getDate(),bookingId);
                 break;
             case "hobby":
-                Hobby hobby = hobbyRepository.findById(bookingDTO.getHobbyId()).get();
-                bookingToUpdate.setHobby(hobby);
+                setHobbyForBooking(bookingDTO.getHobbyId(),bookingId);
                 break;
             case "venue":
-                Venue venue = venueRepository.findById(bookingDTO.getVenueId()).get();
-                bookingToUpdate.setVenue(venue);
+                setVenueForBooking(bookingDTO.getVenueId(),bookingId);
                 break;
             case "addUsers":
                 for(Long userID: bookingDTO.getUserIds()){
-                    this.addUserToBooking(userID, bookingToUpdate);
+                    this.addUserToBooking(userID, bookingId);
                 }
                 break;
             case "removeUsers":
                 for(Long userID: bookingDTO.getUserIds()) {
-                    this.removerUserFromBooking(userID, bookingToUpdate);
+                    this.removerUserFromBooking(userID, bookingId);
                 }
                 break;
             default:
                 break;
         }
 
-        return bookingToUpdate;
+        return this.findBookingById(bookingId).get();
     }
 
 }
