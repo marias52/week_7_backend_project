@@ -1,6 +1,8 @@
 package com.backend_project.backend_hobby_project.services;
 
+import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.Hobby;
+import com.backend_project.backend_hobby_project.models.PrivateUserDTO;
 import com.backend_project.backend_hobby_project.models.User;
 import com.backend_project.backend_hobby_project.models.UserDTO;
 import com.backend_project.backend_hobby_project.repositories.UserRepository;
@@ -66,6 +68,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void setUserPrivacy(boolean isPrivate, Long userId) {
+        User user = this.findUserById(userId).get();
+        user.setIsPrivate(isPrivate);
+        userRepository.save(user);
+    }
+
     @Transactional
     public void addHobbyToUser(Long hobbyId, Long userId) {
         if(hobbyService.findHobbyById(hobbyId).isEmpty()) {
@@ -101,13 +109,14 @@ public class UserService {
         int newAge = userDTO.getAge();
         String newLocation = userDTO.getLocation();
         String newBio = userDTO.getBiography();
+        boolean newPrivacy = userDTO.getIsPrivate();
 
         User existingUser = this.findUserById(id).get();
         existingUser.setName(newName);
         existingUser.setAge(newAge);
         existingUser.setLocation(newLocation);
         existingUser.setBiography(newBio);
-
+        existingUser.setIsPrivate(newPrivacy);
         userRepository.save(existingUser);
 
         return existingUser;
@@ -132,6 +141,9 @@ public class UserService {
             case "biography":
                 this.setUserBiography(userDTO.getBiography(), userId);
                 break;
+            case "isPrivacy":
+                this.setUserPrivacy(userDTO.getIsPrivate(), userId);
+                break;
             case "addHobby":
                 for(Long hobbyId : userDTO.getHobbyIds()) {
                     this.addHobbyToUser(hobbyId, userId);
@@ -151,12 +163,17 @@ public class UserService {
         return userToUpdate;
     }
 
-    public List<User> getPrivateUsers () {
-        return userRepository.findPrivateUsers();
+    public List<User> getPrivateUsers (PrivateUserDTO privateUserDTO) {
+        return userRepository.findByIsPrivateTrue(privateUserDTO);
     }
 
-//    public Optional<DaysOfTheWeek> getUserAvailabilityById(Long id) {
-//        return this.userRepository.getUserAvailabilityById(id);
-//    }
+    public List<User> getPublicUsers(){
+        return userRepository.findByIsPrivateFalse();
+
+    }
+
+    public Optional<DaysOfTheWeek> getUserAvailabilityById(Long id) {
+        return this.userRepository.getUserAvailabilityById(id);
+    }
 
 }

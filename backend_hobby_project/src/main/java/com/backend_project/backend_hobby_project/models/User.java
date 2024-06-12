@@ -28,7 +28,7 @@ public class User {
     private String biography;
 
     @Column (name = "private")
-    private String isPrivate;
+    private boolean isPrivate;
 
 //    @Enumerated(EnumType.STRING)
 //    @Column (name = "availability")
@@ -47,7 +47,7 @@ public class User {
     )
     private List<Hobby> hobbies;
 
-    public User(String name, int age, String location, String biography, String isPrivate) {
+    public User(String name, int age, String location, String biography, boolean isPrivate) {
         this.name = name;
         this.age = age;
         this.location = location;
@@ -118,11 +118,11 @@ public class User {
         this.hobbies = hobbies;
     }
 
-    public String getIsPrivate() {
+    public boolean getIsPrivate() {
         return isPrivate;
     }
 
-    public void setIsPrivate(String isPrivate) {
+    public void setIsPrivate(boolean isPrivate) {
         this.isPrivate = isPrivate;
     }
 }
