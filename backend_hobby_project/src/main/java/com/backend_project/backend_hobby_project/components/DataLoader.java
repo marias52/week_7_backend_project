@@ -12,6 +12,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,8 @@ public class DataLoader implements ApplicationRunner {
         userService.addHobbyToUser(fiveAside.getId(), maria.getId());
 
         Booking booking = new Booking("18:00", "11/06/2024", wembly, fiveAside);
+        LocalDate date = booking.getDate();
+        System.out.println(bookingService.zellersCongruence(date));
         bookingRepository.save(booking);
         bookingService.addUserToBooking(sunny.getId(), booking.getId());
         bookingService.addUserToBooking(dan.getId(), booking.getId());
