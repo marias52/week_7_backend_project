@@ -9,7 +9,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -39,6 +41,12 @@ public class BookingService {
         this.bookingRepository.save(booking);
     }
 
+    public String convertLocalDateToString(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
+    }
+
+
     public Booking makeBooking(BookingDTO bookingDTO){
 
         Long hobbyId = bookingDTO.getHobbyId();
@@ -51,10 +59,15 @@ public class BookingService {
             return null;
         }
 
-        String date = bookingDTO.getDate();
+        LocalDate date = bookingDTO.getDate();
+        String dateAsString = this.convertLocalDateToString(date);
         String time = bookingDTO.getTime();
 
-        Booking booking = new Booking(time, date, venue, hobby);
+
+        //format the local date back into a string to make the new booking object
+
+
+        Booking booking = new Booking(time, dateAsString, venue, hobby);
         this.addBooking(booking);
         Long bookingId = booking.getId();
 
@@ -173,7 +186,8 @@ public class BookingService {
         Long hobbyId = bookingDTO.getHobbyId();
         Long venueId = bookingDTO.getVenueId();
         List<Long> userIds = bookingDTO.getUserIds();
-        String date = bookingDTO.getDate();
+        LocalDate date = bookingDTO.getDate();
+        String dateAsString = this.convertLocalDateToString(date);
         String time = bookingDTO.getTime();
         Venue venue = venueRepository.findById(venueId).get();
         Hobby hobby = hobbyRepository.findById(hobbyId).get();
@@ -187,7 +201,7 @@ public class BookingService {
         }
 
         booking.setUsers(listToUpdate);
-        booking.setDate(date);
+        booking.setDate(dateAsString);
         booking.setHobby(hobby);
         booking.setTime(time);
         booking.setVenue(venue);
@@ -203,7 +217,9 @@ public class BookingService {
                 setTimeForBooking(bookingDTO.getTime(), bookingId);
                 break;
             case "date":
-                setDateForBooking(bookingDTO.getDate(),bookingId);
+                LocalDate newDate = bookingDTO.getDate();
+                String dateAsString = this.convertLocalDateToString(newDate);
+                setDateForBooking(dateAsString,bookingId);
                 break;
             case "hobby":
                 setHobbyForBooking(bookingDTO.getHobbyId(),bookingId);
