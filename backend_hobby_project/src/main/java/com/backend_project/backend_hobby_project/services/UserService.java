@@ -30,13 +30,14 @@ public class UserService {
         return this.userRepository.findById(id);
     }
 
-    public User addUser(User user){
+    public User addUser(User user) {
         this.userRepository.save(user);
         return user;
     }
 
-    public long deleteUserById (Long id){
-        this.userRepository.deleteById(id);
+    public long deleteUserById (Long id) {
+        User user = this.findUserById(id).get();
+        this.userRepository.delete(user);
         return id;
     }
 
@@ -132,10 +133,6 @@ public class UserService {
 
     public User updateUserProp (UserDTO userDTO, Long userId, String property) {
 
-        if(this.findUserById(userId).isEmpty()) {
-            return null;
-        }
-
         switch (property) {
             case "name":
                 this.setUserName(userDTO.getName(), userId);
@@ -188,8 +185,4 @@ public class UserService {
         List<DaysOfTheWeek> availability = user.getAvailability();
         return availability;
     }
-
-
-
-
 }
