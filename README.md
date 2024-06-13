@@ -38,6 +38,7 @@ Here are a few of the features included within our API.
 * Public and Private user profiles.
 * Dynamic Venue Capacity.
 * Custom Runtime Exceptions.
+    * These runtime exceptions throw either 400 or 404 errors based around whether a piece of data can either be found or if the request was successfully received by the API.
 
 ## Installation
 
@@ -71,7 +72,7 @@ The API will then be available at **http://localhost:8080**
 ## References:
 
 * [Zellers Congruence Algorithm](https://medium.com/@vp2005rawal/from-dates-to-days-unveiling-zellers-congruence-for-the-common-man-653ce71571a5)
-* [Levenshtein Distance Algoithm] (https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/similarity/LevenshteinDistance.html)
+* [Levenshtein Distance Algoithm](https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/similarity/LevenshteinDistance.html)
 
 ## Contributors:
 
