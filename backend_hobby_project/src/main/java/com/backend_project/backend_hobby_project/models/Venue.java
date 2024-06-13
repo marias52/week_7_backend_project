@@ -20,6 +20,7 @@ public class Venue {
     @Column (name = "location")
     private String location;
 
+
     @Column (name = "capacity")
     private int capacity;
 
@@ -32,6 +33,7 @@ public class Venue {
         this.name = name;
         this.location = location;
         this.capacity = capacity;
+
         this.bookings = new ArrayList<>();
     }
 
@@ -85,4 +87,6 @@ public class Venue {
 
     public Venue() {
     }
+
+
 }

@@ -43,7 +43,7 @@ public class DataLoader implements ApplicationRunner {
         Hobby fiveAside = new Hobby("Five a Side");
         hobbyRepository.save(fiveAside);
 
-        Venue wembly = new Venue("Wembly", "Wembly", 90000);
+        Venue wembly = new Venue("Wembly", "London", 90000);
         venueService.addVenue(wembly);
 
         List<DaysOfTheWeek> sunnyAvailability = new ArrayList<>();

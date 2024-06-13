@@ -48,11 +48,13 @@ public class VenueService {
         String venueLocation = venueDTO.getLocation();
         int venueCapacity = venueDTO.getCapacity();
 
+
         Venue existingVenue = this.findVenueById(id).get();
 
         existingVenue.setName(venueName);
         existingVenue.setLocation(venueLocation);
         existingVenue.setCapacity(venueCapacity);
+
 
         venueRepository.save(existingVenue);
 
@@ -71,6 +73,7 @@ public class VenueService {
             case "capacity":
                 venueToUpdate.setCapacity(venueDTO.getCapacity());
                 break;
+         
             case "default":
         }
 
