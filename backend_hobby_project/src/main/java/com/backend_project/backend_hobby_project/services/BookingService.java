@@ -1,5 +1,6 @@
 package com.backend_project.backend_hobby_project.services;
 
+import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.*;
 import com.backend_project.backend_hobby_project.repositories.BookingRepository;
 import com.backend_project.backend_hobby_project.repositories.HobbyRepository;
@@ -45,6 +46,39 @@ public class BookingService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return date.format(formatter);
     }
+
+    public int zellersCongruence(LocalDate date){
+        int numOfMonth = date.getDayOfMonth();
+        int month = date.getMonthValue();
+        int year = date.getYear();
+
+        if (month == 1 ){
+            month = 13;
+            year--;
+        }
+
+        if (month == 2){
+            month = 14;
+            year--;
+        }
+        //this algorithm counts January and February as month 13 and 14 of the previous year
+
+        int yearOfCentury = year%100;
+
+        int century = year/100; //zero based century not typical century enumeration
+
+        int dayOfTheWeek = (numOfMonth + (13*(month + 1))/5 + yearOfCentury + (yearOfCentury/4) + (century/4) - 2*century)%7;
+
+        int convToStandard = (dayOfTheWeek +7)%7; //to get non negative result
+
+        return dayOfTheWeek;
+
+
+    }
+
+//    public DaysOfTheWeek convZellersToEnum(int zellersInt, String time){
+//
+//    }
 
 
     public Booking makeBooking(BookingDTO bookingDTO){
