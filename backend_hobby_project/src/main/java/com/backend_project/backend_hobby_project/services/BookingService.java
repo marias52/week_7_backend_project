@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -54,34 +55,7 @@ public class BookingService {
         return time.format(formatTime);
     }
 
-    public int zellersCongruence(LocalDate date){
-        int numOfMonth = date.getDayOfMonth();
-        int month = date.getMonthValue();
-        int year = date.getYear();
 
-        if (month == 1 ){
-            month = 13;
-            year--;
-        }
-
-        if (month == 2){
-            month = 14;
-            year--;
-        }
-        //this algorithm counts January and February as month 13 and 14 of the previous year
-
-        int yearOfCentury = year%100;
-
-        int century = year/100; //zero based century not typical century enumeration
-
-        int dayOfTheWeek = (numOfMonth + (13*(month + 1))/5 + yearOfCentury + (yearOfCentury/4) + (century/4) - 2*century)%7;
-
-        int convToStandard = (dayOfTheWeek +7)%7; //to get non negative result
-
-        return dayOfTheWeek;
-
-
-    }
 
 
 
@@ -287,6 +261,52 @@ public class BookingService {
         }
 
         return this.findBookingById(bookingId).get();
+    }
+
+    public List<Booking> recommendBookings(UserDTO userDTO){
+
+        List<Booking> recommendations = new ArrayList<>();
+        for (Booking booking: this.findAllBookings()){
+
+            LocalTime time = booking.getTime();
+            int zellersInt = this.zellersCongruence(booking.getDate());
+            DaysOfTheWeek day = convZellersToDay(zellersInt,time);
+            for (DaysOfTheWeek userAvailability : userDTO.getAvailability()){
+                if (userAvailability == day){
+                    recommendations.add(booking);
+                }
+            }
+        }
+        return recommendations;
+
+    }
+    public int zellersCongruence(LocalDate date){
+        int numOfMonth = date.getDayOfMonth();
+        int month = date.getMonthValue();
+        int year = date.getYear();
+
+        if (month == 1 ){
+            month = 13;
+            year--;
+        }
+
+        if (month == 2){
+            month = 14;
+            year--;
+        }
+        //this algorithm counts January and February as month 13 and 14 of the previous year
+
+        int yearOfCentury = year%100;
+
+        int century = year/100; //zero based century not typical century enumeration
+
+        int dayOfTheWeek = (numOfMonth + (13*(month + 1))/5 + yearOfCentury + (yearOfCentury/4) + (century/4) - 2*century)%7;
+
+        int convToStandard = (dayOfTheWeek +7)%7; //to get non negative result
+
+        return dayOfTheWeek;
+
+
     }
 
 
