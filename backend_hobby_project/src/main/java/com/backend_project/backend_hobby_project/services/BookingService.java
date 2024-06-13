@@ -188,12 +188,14 @@ public class BookingService {
         bookingRepository.save(booking);
     }
 
-    public void deleteBooking(Long id){
+    public Long deleteBooking(Long id){
         Booking booking = this.findBookingById(id).get();
         this.removeAllUserFromBooking(id);
         this.removeHobbyFromBooking(id);
         this.removeVenueFromBooking(id);
         bookingRepository.delete(booking);
+
+        return id;
     }
 
     public Booking updateBooking (BookingDTO bookingDTO, Long id){
@@ -210,14 +212,14 @@ public class BookingService {
         Hobby hobby = hobbyRepository.findById(hobbyId).get();
 
         List<User> listToUpdate = booking.getUsers();
+        venue.setCapacity(venue.getCapacity() + listToUpdate.size());
+        venueRepository.save(venue);
         listToUpdate.clear();
 
         for(Long uId: userIds){
-            User user = userRepository.findById(uId).get();
-            listToUpdate.add(user);
+            this.addUserToBooking(uId, booking.getId());
         }
 
-        booking.setUsers(listToUpdate);
         booking.setDate(dateAsString);
         booking.setHobby(hobby);
         booking.setTime(timeAsString);
