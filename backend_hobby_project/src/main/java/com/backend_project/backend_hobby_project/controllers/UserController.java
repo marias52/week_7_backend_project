@@ -5,6 +5,7 @@ import com.backend_project.backend_hobby_project.exceptions.BadJSONException;
 import com.backend_project.backend_hobby_project.exceptions.RequestNotFoundException;
 import com.backend_project.backend_hobby_project.models.User;
 import com.backend_project.backend_hobby_project.models.UserDTO;
+import com.backend_project.backend_hobby_project.services.BookingService;
 import com.backend_project.backend_hobby_project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,14 +24,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    BookingService bookingService;
+
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() throws Exception {
         List<User> users = userService.findAllUsers();
-        if(!users.isEmpty()) {
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } else {
-            throw new RequestNotFoundException("Could not find any users");
-        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) {
+    public ResponseEntity<User> updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id) throws Exception {
         try {
             return new ResponseEntity<>(userService.updateUser(userDTO, id), HttpStatus.OK);
         } catch (NoSuchElementException e) {
@@ -66,8 +66,9 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Long> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Long> deleteUser(@PathVariable Long id) throws Exception {
         try {
+            bookingService.removeUserFromAllBookings(id);
             return new ResponseEntity<>(userService.deleteUserById(id), HttpStatus.OK);
         } catch (NoSuchElementException e) {
             throw new RequestNotFoundException("User ID: " + id + " could not be deleted as it was not found");
@@ -75,7 +76,7 @@ public class UserController {
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<User> updateUserProp(@RequestBody UserDTO userDTO, @PathVariable Long id, @RequestParam String property) {
+    public ResponseEntity<User> updateUserProp(@RequestBody UserDTO userDTO, @PathVariable Long id, @RequestParam String property) throws Exception {
 
         try {
             return new ResponseEntity<>(userService.updateUserProp(userDTO, id, property), HttpStatus.OK);
@@ -87,25 +88,30 @@ public class UserController {
     }
 
     @GetMapping (value = "/private")
-    public ResponseEntity<List<User>> getPrivateUsers() {
-         {
-            return new ResponseEntity<>(userService.getPrivateUsers(), HttpStatus.OK);
-        }
+    public ResponseEntity<List<User>> getPrivateUsers() throws Exception {
+
+        return new ResponseEntity<>(userService.getPrivateUsers(), HttpStatus.OK);
+
     }
 
     @GetMapping (value = "/public")
-    public ResponseEntity<List<User>> getAllPublicUsers() {
-            return new ResponseEntity<>(userService.getPublicUsers(), HttpStatus.OK);
+    public ResponseEntity<List<User>> getAllPublicUsers() throws Exception {
+
+        return new ResponseEntity<>(userService.getPublicUsers(), HttpStatus.OK);
+
     }
 
-
     @GetMapping (value = "/availability/{id}")
-    public ResponseEntity<List<DaysOfTheWeek>> getUserAvailabilityById(@PathVariable Long id){
+    public ResponseEntity<List<DaysOfTheWeek>> getUserAvailabilityById(@PathVariable Long id) throws Exception {
 
-        if (userService.findUserById(id).isPresent()){
-            return new ResponseEntity<>(userService.getUserAvailabilityById(id), HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        try {
+
+            List<DaysOfTheWeek> availability = userService.getUserAvailabilityById(id);
+            return new ResponseEntity<>(availability, HttpStatus.OK);
+
+        } catch (NoSuchElementException e) {
+            throw new RequestNotFoundException("User ID: " + id + " not found");
         }
+
     }
 }

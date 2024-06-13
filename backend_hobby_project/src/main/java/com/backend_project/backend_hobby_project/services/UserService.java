@@ -1,6 +1,7 @@
 package com.backend_project.backend_hobby_project.services;
 
 import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
+import com.backend_project.backend_hobby_project.models.Booking;
 import com.backend_project.backend_hobby_project.models.Hobby;
 import com.backend_project.backend_hobby_project.models.User;
 import com.backend_project.backend_hobby_project.models.UserDTO;
@@ -28,6 +29,12 @@ public class UserService {
 
     public Optional<User> findUserById( long id) {
         return this.userRepository.findById(id);
+    }
+
+    public List<Booking> getUserBookings(Long userId) {
+        User user = this.findUserById(userId).get();
+        List<Booking> userBookings = user.getBookings();
+        return userBookings;
     }
 
     public User addUser(User user) {

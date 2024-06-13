@@ -26,11 +26,7 @@ public class BookingController {
     @GetMapping
     public ResponseEntity<List<Booking>> getAllBookings() throws Exception {
         List<Booking> bookings = bookingService.findAllBookings();
-        if(!bookings.isEmpty()) {
-            return new ResponseEntity<>(bookings, HttpStatus.OK);
-        } else {
-            throw new RequestNotFoundException("Could not find any bookings");
-        }
+        return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -60,7 +56,7 @@ public class BookingController {
         try {
             return new ResponseEntity<>(bookingService.updateBooking(bookingDTO, id), HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            throw new RequestNotFoundException("Could not update booking: " + id);
+            throw new RequestNotFoundException("Could not update booking: " + id + " as it was not found");
         } catch (HttpMessageNotReadableException e) {
             throw new BadJSONException(e.getMessage());
         }
@@ -87,7 +83,7 @@ public class BookingController {
     }
 
     @GetMapping(value = "/recommendations" )
-    public ResponseEntity<List<Booking>> getRecommendations(@RequestBody UserDTO userDTO){
+    public ResponseEntity<List<Booking>> getRecommendations(@RequestBody UserDTO userDTO) throws Exception {
         List<Booking> recommendations = bookingService.recommendBookings(userDTO);
         return new ResponseEntity<>(recommendations,HttpStatus.OK);
     }
