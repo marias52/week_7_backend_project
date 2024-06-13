@@ -4,7 +4,7 @@ Booking Buddies, because your sofa has seen enough of you.
 
 ## Description
 
-Booking Buddies is a RESTful API built using the Java Spring Boot framework and utilises PostgreSQL for database management.
+Booking Buddies is a RESTful API built using the Java Spring Boot framework and utilises PostgreSQL for database management. The idea behind our API is to connect users based around common hobbies. Allowing them to book activities based around those hobbies and get off that sofa! Using our API you can create a user profile, assign yourself a hobby such as basketball and either join or create a booking based around your hobby.
 
 ## Features
 
@@ -67,6 +67,11 @@ The API will then be available at **http://localhost:8080**
 * Spring Boot DevTools
 * JPA
 * PostgreSQL Driver
+
+## References:
+
+* [Zellers Congruence Algorithm](https://medium.com/@vp2005rawal/from-dates-to-days-unveiling-zellers-congruence-for-the-common-man-653ce71571a5)
+* [Levenshtein Distance Algoithm] (https://commons.apache.org/proper/commons-text/apidocs/org/apache/commons/text/similarity/LevenshteinDistance.html)
 
 ## Contributors:
 
