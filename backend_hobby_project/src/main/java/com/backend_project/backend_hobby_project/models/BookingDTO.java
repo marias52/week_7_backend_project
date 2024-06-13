@@ -1,18 +1,20 @@
 package com.backend_project.backend_hobby_project.models;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class BookingDTO {
-    private String time;
+    private LocalTime time;
     private LocalDate date;
     private List<Long> userIds;
     private long venueId;
     private long hobbyId;
 
     public BookingDTO(String time, String date, List<Long> userIds, long venueId, long hobbyId) {
-        this.time = time;
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
+        this.time = LocalTime.parse(time,formatTime);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.date = LocalDate.parse(date,formatter);
         this.userIds = userIds;
@@ -20,12 +22,13 @@ public class BookingDTO {
         this.hobbyId = hobbyId;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
+        this.time = LocalTime.parse(time,formatTime);
     }
 
     public LocalDate getDate() {

@@ -8,9 +8,11 @@ import com.backend_project.backend_hobby_project.repositories.UserRepository;
 import com.backend_project.backend_hobby_project.repositories.VenueRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -45,6 +47,11 @@ public class BookingService {
     public String convertLocalDateToString(LocalDate date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return date.format(formatter);
+    }
+
+    public String convertLocalTimeToString(LocalTime time){
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
+        return time.format(formatTime);
     }
 
     public int zellersCongruence(LocalDate date){
@@ -95,13 +102,14 @@ public class BookingService {
 
         LocalDate date = bookingDTO.getDate();
         String dateAsString = this.convertLocalDateToString(date);
-        String time = bookingDTO.getTime();
+        LocalTime time = bookingDTO.getTime();
+        String timeAsString = this.convertLocalTimeToString(time);
 
 
         //format the local date back into a string to make the new booking object
 
 
-        Booking booking = new Booking(time, dateAsString, venue, hobby);
+        Booking booking = new Booking(timeAsString, dateAsString, venue, hobby);
         this.addBooking(booking);
         Long bookingId = booking.getId();
 
@@ -222,7 +230,9 @@ public class BookingService {
         List<Long> userIds = bookingDTO.getUserIds();
         LocalDate date = bookingDTO.getDate();
         String dateAsString = this.convertLocalDateToString(date);
-        String time = bookingDTO.getTime();
+        LocalTime time = bookingDTO.getTime();
+        String timeAsString = this.convertLocalTimeToString(time);
+
         Venue venue = venueRepository.findById(venueId).get();
         Hobby hobby = hobbyRepository.findById(hobbyId).get();
 
@@ -237,7 +247,7 @@ public class BookingService {
         booking.setUsers(listToUpdate);
         booking.setDate(dateAsString);
         booking.setHobby(hobby);
-        booking.setTime(time);
+        booking.setTime(timeAsString);
         booking.setVenue(venue);
 
         bookingRepository.save(booking);
@@ -248,7 +258,9 @@ public class BookingService {
     public Booking updateBookingProp (BookingDTO bookingDTO, long bookingId, String property) {
         switch (property) {
             case "time":
-                setTimeForBooking(bookingDTO.getTime(), bookingId);
+                LocalTime newTime = bookingDTO.getTime();
+                String timeAsString = this.convertLocalTimeToString(newTime);
+                setTimeForBooking(timeAsString, bookingId);
                 break;
             case "date":
                 LocalDate newDate = bookingDTO.getDate();
