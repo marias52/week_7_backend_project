@@ -62,9 +62,6 @@ public class DataLoader implements ApplicationRunner {
         userService.addHobbyToUser(fiveAside.getId(), maria.getId());
 
         Booking booking = new Booking("18:00", "11/06/2024", wembly, fiveAside);
-        LocalDate date = booking.getDate();
-        System.out.println(bookingService.zellersCongruence(date));
-        System.out.println(bookingService.convZellersToDay(3,booking.getTime()));
         bookingRepository.save(booking);
         bookingService.addUserToBooking(sunny.getId(), booking.getId());
         bookingService.addUserToBooking(dan.getId(), booking.getId());
