@@ -83,9 +83,8 @@ public class BookingService {
 
     }
 
-//    public DaysOfTheWeek convZellersToEnum(int zellersInt, String time){
-//
-//    }
+
+
 
 
     public Booking makeBooking(BookingDTO bookingDTO){
@@ -289,5 +288,76 @@ public class BookingService {
 
         return this.findBookingById(bookingId).get();
     }
+
+
+    public DaysOfTheWeek convZellersToDay(int zellersInt, LocalTime time){
+        int hour = time.getHour();
+
+        if (zellersInt == 0 && hour >= 6 && hour < 12 ){
+            return DaysOfTheWeek.SATURDAYMORNING;
+        }
+        else if (zellersInt==0 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.SATURDAYAFTERNOON;
+        }
+        else if (zellersInt==0 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.SATURDAYEVENING;
+        }
+        else if (zellersInt==1 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.SUNDAYMORNING;
+        }
+        else if (zellersInt==1 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.SUNDAYAFTERNOON;
+        }
+        else if (zellersInt==1 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.SUNDAYEVENING;
+        }
+        else if (zellersInt==2 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.MONDAYMORNING;
+        }
+        else if (zellersInt==2 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.MONDAYAFTERNOON;
+        }
+        else if (zellersInt==2 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.MONDAYEVENING;
+        }
+        else if (zellersInt==3 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.TUESDAYMORNING;
+        }
+        else if (zellersInt==3 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.TUESDAYAFTERNOON;
+        }
+        else if (zellersInt==3 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.TUESDAYEVENING;
+        }
+        else if (zellersInt==4 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.WEDNESDAYMORNING;
+        }
+        else if (zellersInt==4 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.WEDNESDAYAFTERNOON;
+        }
+        else if (zellersInt==4 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.WEDNESDAYEVENING;
+        }
+        else if (zellersInt==5 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.THURSDAYMORNING;
+        }
+        else if (zellersInt==5 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.THURSDAYAFTERNOON;
+        }
+        else if (zellersInt==5 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.THURSDAYEVENING;
+        }
+        else if (zellersInt==6 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.FRIDAYMORNING;
+        }
+        else if (zellersInt==6 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.FRIDAYAFTERNOON;
+        }
+        else if (zellersInt==6 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.FRIDAYEVENING;
+        }
+        return null;
+    }
+
 
 }
