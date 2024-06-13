@@ -184,7 +184,9 @@ public class UserService {
     }
 
     public List<DaysOfTheWeek> getUserAvailabilityById(Long userId) {
-        return this.userRepository.findAvailabilityById(userId);
+        User user = this.findUserById(userId).get();
+        List<DaysOfTheWeek> availability = user.getAvailability();
+        return availability;
     }
 
 

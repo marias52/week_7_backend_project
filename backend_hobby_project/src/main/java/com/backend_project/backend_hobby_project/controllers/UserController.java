@@ -98,13 +98,14 @@ public class UserController {
             return new ResponseEntity<>(userService.getPublicUsers(), HttpStatus.OK);
     }
 
-//
-//    @GetMapping (value = "/{id}/availability")
-//    public ResponseEntity<Optional<DaysOfTheWeek>> getUserAvailabilityById(@PathVariable Long id @PathVariable String availabilityk){
-//        if (availability != null){
-//            return new ResponseEntity<>(availability, HttpStatus.OK);
-//        }else {
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
-//        }
-//    }
+
+    @GetMapping (value = "/availability/{id}")
+    public ResponseEntity<List<DaysOfTheWeek>> getUserAvailabilityById(@PathVariable Long id){
+
+        if (userService.findUserById(id).isPresent()){
+            return new ResponseEntity<>(userService.getUserAvailabilityById(id), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 }

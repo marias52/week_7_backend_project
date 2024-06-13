@@ -57,16 +57,16 @@ public class HobbyService {
     public Hobby addHobby(Hobby newHobby) {
         String newHobbyName = newHobby.getName();
 
-        boolean shouldSave;
+        boolean shouldSave = true;
 
         for (Hobby hobby : hobbyRepository.findAll()) {
             String hobbyNameToCheck = hobby.getName();
 
             if (this.checkForCloseSpelling(newHobbyName, hobbyNameToCheck)) {
                 shouldSave = false;
-                break;
+                continue;
             }
-            if (shouldSave == true) {
+            if (shouldSave) {
                 hobbyRepository.save(newHobby);
             }
         }
