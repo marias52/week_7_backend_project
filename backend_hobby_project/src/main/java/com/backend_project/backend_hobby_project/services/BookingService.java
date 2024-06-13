@@ -266,13 +266,16 @@ public class BookingService {
     public List<Booking> recommendBookings(UserDTO userDTO){
 
         List<Booking> recommendations = new ArrayList<>();
+        String userLocation = userDTO.getLocation();
         for (Booking booking: this.findAllBookings()){
 
             LocalTime time = booking.getTime();
+            Venue venue = booking.getVenue();
+
             int zellersInt = this.zellersCongruence(booking.getDate());
             DaysOfTheWeek day = convZellersToDay(zellersInt,time);
             for (DaysOfTheWeek userAvailability : userDTO.getAvailability()){
-                if (userAvailability == day){
+                if (userAvailability == day && venue.getLocation().equals(userLocation)){
                     recommendations.add(booking);
                 }
             }
