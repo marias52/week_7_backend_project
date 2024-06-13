@@ -8,6 +8,7 @@ import org.springframework.cglib.core.Local;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
@@ -19,7 +20,7 @@ public class Booking {
     private long id;
 
     @Column(name = "time")
-    private String time;
+    private LocalTime time;
 
     @Column(name = "date")
     private LocalDate date;
@@ -44,8 +45,9 @@ public class Booking {
     private Hobby hobby;
 
     public Booking(String time, String date, Venue venue, Hobby hobby) {
-        this.time = time;
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.time = LocalTime.parse(time,formatTime);
         this.date = LocalDate.parse(date,formatter);
         this.venue = venue;
         this.hobby = hobby;
@@ -63,12 +65,13 @@ public class Booking {
         this.id = id;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
+        this.time = LocalTime.parse(time,formatTime);
     }
 
     public LocalDate getDate() {
