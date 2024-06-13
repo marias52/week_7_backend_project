@@ -1,8 +1,6 @@
 package com.backend_project.backend_hobby_project.repositories;
 
 
-import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
-import com.backend_project.backend_hobby_project.models.PrivateUserDTO;
 import com.backend_project.backend_hobby_project.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,6 +13,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     List<User> findByIsPrivateTrue();
     List<User> findByIsPrivateFalse();
 
-    List<DaysOfTheWeek> findAvailabilityById (Long userId);
+
 }
 
