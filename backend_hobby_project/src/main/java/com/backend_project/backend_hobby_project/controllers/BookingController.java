@@ -2,6 +2,7 @@ package com.backend_project.backend_hobby_project.controllers;
 
 import com.backend_project.backend_hobby_project.models.Booking;
 import com.backend_project.backend_hobby_project.models.BookingDTO;
+import com.backend_project.backend_hobby_project.models.UserDTO;
 import com.backend_project.backend_hobby_project.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,5 +65,11 @@ public class BookingController {
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping(value = "/recommendations" )
+    public ResponseEntity<List<Booking>> getRecommendations(@RequestBody UserDTO userDTO){
+        List<Booking> recommendations = bookingService.recommendBookings(userDTO);
+        return new ResponseEntity<>(recommendations,HttpStatus.OK);
     }
 }
