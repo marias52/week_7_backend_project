@@ -3,6 +3,7 @@ package com.backend_project.backend_hobby_project.components;
 import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.*;
 import com.backend_project.backend_hobby_project.repositories.BookingRepository;
+import com.backend_project.backend_hobby_project.repositories.HobbyRepository;
 import com.backend_project.backend_hobby_project.services.BookingService;
 import com.backend_project.backend_hobby_project.services.HobbyService;
 import com.backend_project.backend_hobby_project.services.UserService;
@@ -34,10 +35,13 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     BookingRepository bookingRepository;
 
+    @Autowired
+    HobbyRepository hobbyRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Hobby fiveAside = new Hobby("Five a Side");
-        hobbyService.addHobby(fiveAside);
+        hobbyRepository.save(fiveAside);
 
         Venue wembly = new Venue("Wembly", "Wembly", 90000);
         venueService.addVenue(wembly);
@@ -66,5 +70,5 @@ public class DataLoader implements ApplicationRunner {
         bookingService.addUserToBooking(dan.getId(), booking.getId());
         bookingService.addUserToBooking(maria.getId(), booking.getId());
         bookingRepository.save(booking);
-    }
+       }
 }
