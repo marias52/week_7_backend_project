@@ -1,5 +1,6 @@
 package com.backend_project.backend_hobby_project.services;
 
+import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.backend_project.backend_hobby_project.models.*;
 import com.backend_project.backend_hobby_project.repositories.BookingRepository;
 import com.backend_project.backend_hobby_project.repositories.HobbyRepository;
@@ -7,9 +8,14 @@ import com.backend_project.backend_hobby_project.repositories.UserRepository;
 import com.backend_project.backend_hobby_project.repositories.VenueRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -39,6 +45,22 @@ public class BookingService {
         this.bookingRepository.save(booking);
     }
 
+    public String convertLocalDateToString(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
+    }
+
+    public String convertLocalTimeToString(LocalTime time){
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
+        return time.format(formatTime);
+    }
+
+
+
+
+
+
+
     public Booking makeBooking(BookingDTO bookingDTO){
 
         Long hobbyId = bookingDTO.getHobbyId();
@@ -51,10 +73,16 @@ public class BookingService {
             return null;
         }
 
-        String date = bookingDTO.getDate();
-        String time = bookingDTO.getTime();
+        LocalDate date = bookingDTO.getDate();
+        String dateAsString = this.convertLocalDateToString(date);
+        LocalTime time = bookingDTO.getTime();
+        String timeAsString = this.convertLocalTimeToString(time);
 
-        Booking booking = new Booking(time, date, venue, hobby);
+
+        //format the local date back into a string to make the new booking object
+
+
+        Booking booking = new Booking(timeAsString, dateAsString, venue, hobby);
         this.addBooking(booking);
         Long bookingId = booking.getId();
 
@@ -175,8 +203,11 @@ public class BookingService {
         Long hobbyId = bookingDTO.getHobbyId();
         Long venueId = bookingDTO.getVenueId();
         List<Long> userIds = bookingDTO.getUserIds();
-        String date = bookingDTO.getDate();
-        String time = bookingDTO.getTime();
+        LocalDate date = bookingDTO.getDate();
+        String dateAsString = this.convertLocalDateToString(date);
+        LocalTime time = bookingDTO.getTime();
+        String timeAsString = this.convertLocalTimeToString(time);
+
         Venue venue = venueRepository.findById(venueId).get();
         Hobby hobby = hobbyRepository.findById(hobbyId).get();
 
@@ -189,9 +220,9 @@ public class BookingService {
             this.addUserToBooking(uId, booking.getId());
         }
 
-        booking.setDate(date);
+        booking.setDate(dateAsString);
         booking.setHobby(hobby);
-        booking.setTime(time);
+        booking.setTime(timeAsString);
         booking.setVenue(venue);
 
         bookingRepository.save(booking);
@@ -202,10 +233,14 @@ public class BookingService {
     public Booking updateBookingProp (BookingDTO bookingDTO, long bookingId, String property) {
         switch (property) {
             case "time":
-                setTimeForBooking(bookingDTO.getTime(), bookingId);
+                LocalTime newTime = bookingDTO.getTime();
+                String timeAsString = this.convertLocalTimeToString(newTime);
+                setTimeForBooking(timeAsString, bookingId);
                 break;
             case "date":
-                setDateForBooking(bookingDTO.getDate(),bookingId);
+                LocalDate newDate = bookingDTO.getDate();
+                String dateAsString = this.convertLocalDateToString(newDate);
+                setDateForBooking(dateAsString,bookingId);
                 break;
             case "hobby":
                 setHobbyForBooking(bookingDTO.getHobbyId(),bookingId);
@@ -229,5 +264,125 @@ public class BookingService {
 
         return this.findBookingById(bookingId).get();
     }
+
+    public List<Booking> recommendBookings(UserDTO userDTO){
+
+        List<Booking> recommendations = new ArrayList<>();
+        String userLocation = userDTO.getLocation();
+        for (Booking booking: this.findAllBookings()){
+
+            LocalTime time = booking.getTime();
+            Venue venue = booking.getVenue();
+
+            int zellersInt = this.zellersCongruence(booking.getDate());
+            DaysOfTheWeek day = convZellersToDay(zellersInt,time);
+            for (DaysOfTheWeek userAvailability : userDTO.getAvailability()){
+                if (userAvailability == day && venue.getLocation().equals(userLocation)){
+                    recommendations.add(booking);
+                }
+            }
+        }
+        return recommendations;
+
+    }
+    public int zellersCongruence(LocalDate date){
+        int numOfMonth = date.getDayOfMonth();
+        int month = date.getMonthValue();
+        int year = date.getYear();
+
+        if (month == 1 ){
+            month = 13;
+            year--;
+        }
+
+        if (month == 2){
+            month = 14;
+            year--;
+        }
+        //this algorithm counts January and February as month 13 and 14 of the previous year
+
+        int yearOfCentury = year%100;
+
+        int century = year/100; //zero based century not typical century enumeration
+
+        int dayOfTheWeek = (numOfMonth + (13*(month + 1))/5 + yearOfCentury + (yearOfCentury/4) + (century/4) - 2*century)%7;
+
+        int convToStandard = (dayOfTheWeek +7)%7; //to get non negative result
+
+        return dayOfTheWeek;
+
+
+    }
+
+
+    public DaysOfTheWeek convZellersToDay(int zellersInt, LocalTime time){
+        int hour = time.getHour();
+
+        if (zellersInt == 0 && hour >= 6 && hour < 12 ){
+            return DaysOfTheWeek.SATURDAYMORNING;
+        }
+        else if (zellersInt==0 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.SATURDAYAFTERNOON;
+        }
+        else if (zellersInt==0 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.SATURDAYEVENING;
+        }
+        else if (zellersInt==1 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.SUNDAYMORNING;
+        }
+        else if (zellersInt==1 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.SUNDAYAFTERNOON;
+        }
+        else if (zellersInt==1 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.SUNDAYEVENING;
+        }
+        else if (zellersInt==2 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.MONDAYMORNING;
+        }
+        else if (zellersInt==2 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.MONDAYAFTERNOON;
+        }
+        else if (zellersInt==2 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.MONDAYEVENING;
+        }
+        else if (zellersInt==3 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.TUESDAYMORNING;
+        }
+        else if (zellersInt==3 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.TUESDAYAFTERNOON;
+        }
+        else if (zellersInt==3 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.TUESDAYEVENING;
+        }
+        else if (zellersInt==4 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.WEDNESDAYMORNING;
+        }
+        else if (zellersInt==4 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.WEDNESDAYAFTERNOON;
+        }
+        else if (zellersInt==4 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.WEDNESDAYEVENING;
+        }
+        else if (zellersInt==5 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.THURSDAYMORNING;
+        }
+        else if (zellersInt==5 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.THURSDAYAFTERNOON;
+        }
+        else if (zellersInt==5 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.THURSDAYEVENING;
+        }
+        else if (zellersInt==6 && hour>=6 && hour < 12){
+            return DaysOfTheWeek.FRIDAYMORNING;
+        }
+        else if (zellersInt==6 && hour>=12 && hour < 18){
+            return DaysOfTheWeek.FRIDAYAFTERNOON;
+        }
+        else if (zellersInt==6 && hour>=18 && hour < 24){
+            return DaysOfTheWeek.FRIDAYEVENING;
+        }
+        return null;
+    }
+
 
 }

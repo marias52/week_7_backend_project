@@ -7,6 +7,7 @@ public class VenueDTO {
     private String name;
     private String location;
     private int capacity;
+    private String city;
     private List<Long> bookingIds;
 
     public VenueDTO(String name, String location, int capacity, List<Long> bookingIds) {
@@ -14,6 +15,7 @@ public class VenueDTO {
         this.location = location;
         this.capacity = capacity;
         this.bookingIds = bookingIds;
+
     }
 
     public String getName() {
@@ -50,4 +52,6 @@ public class VenueDTO {
 
     public VenueDTO() {
     }
+
+
 }

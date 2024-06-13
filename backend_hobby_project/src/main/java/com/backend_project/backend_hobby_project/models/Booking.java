@@ -3,9 +3,13 @@ package com.backend_project.backend_hobby_project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "bookings")
@@ -16,10 +20,10 @@ public class Booking {
     private long id;
 
     @Column(name = "time")
-    private String time;
+    private LocalTime time;
 
     @Column(name = "date")
-    private String date;
+    private LocalDate date;
 
     @JsonIgnoreProperties({"bookings", "hobbies"})
     @ManyToMany
@@ -41,8 +45,10 @@ public class Booking {
     private Hobby hobby;
 
     public Booking(String time, String date, Venue venue, Hobby hobby) {
-        this.time = time;
-        this.date = date;
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.time = LocalTime.parse(time,formatTime);
+        this.date = LocalDate.parse(date,formatter);
         this.venue = venue;
         this.hobby = hobby;
         this.users = new ArrayList<>();
@@ -59,20 +65,22 @@ public class Booking {
         this.id = id;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
+        this.time = LocalTime.parse(time,formatTime);
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.date = LocalDate.parse(date,formatter);
     }
 
     public List<User> getUsers() {
@@ -105,5 +113,10 @@ public class Booking {
 
     public void removeUser(User user) {
         users.remove(user);
+    }
+
+    public String convertLocalDateToString(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
     }
 }

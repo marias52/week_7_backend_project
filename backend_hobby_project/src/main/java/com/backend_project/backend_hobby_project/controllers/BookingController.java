@@ -4,6 +4,7 @@ import com.backend_project.backend_hobby_project.exceptions.BadJSONException;
 import com.backend_project.backend_hobby_project.exceptions.RequestNotFoundException;
 import com.backend_project.backend_hobby_project.models.Booking;
 import com.backend_project.backend_hobby_project.models.BookingDTO;
+import com.backend_project.backend_hobby_project.models.UserDTO;
 import com.backend_project.backend_hobby_project.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -83,5 +84,11 @@ public class BookingController {
         } catch (NoSuchElementException e) {
             throw new RequestNotFoundException("Booking ID: " + id + " could not be deleted as it was not found");
         }
+    }
+
+    @GetMapping(value = "/recommendations" )
+    public ResponseEntity<List<Booking>> getRecommendations(@RequestBody UserDTO userDTO){
+        List<Booking> recommendations = bookingService.recommendBookings(userDTO);
+        return new ResponseEntity<>(recommendations,HttpStatus.OK);
     }
 }

@@ -136,6 +136,9 @@ public class User {
 
 
     public List<DaysOfTheWeek> getAvailability() {
+        if(this.isPrivate){
+            return null;
+        }
         return availability;
     }
 
