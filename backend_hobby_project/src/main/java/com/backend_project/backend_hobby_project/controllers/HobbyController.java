@@ -29,11 +29,7 @@ public class HobbyController {
     @GetMapping
     public ResponseEntity<List<Hobby>> getAllHobbies() throws Exception {
         List<Hobby> hobbies = hobbyService.getAllHobbies();
-        if(!hobbies.isEmpty()) {
-            return new ResponseEntity<>(hobbies, HttpStatus.OK);
-        } else {
-            throw new RequestNotFoundException("Could not find any hobbies");
-        }
+        return new ResponseEntity<>(hobbies, HttpStatus.OK);
     }
 
     @GetMapping (value = "/{id}")

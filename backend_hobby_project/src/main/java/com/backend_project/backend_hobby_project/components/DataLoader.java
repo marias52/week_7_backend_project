@@ -48,13 +48,21 @@ public class DataLoader implements ApplicationRunner {
 
         List<DaysOfTheWeek> sunnyAvailability = new ArrayList<>();
         sunnyAvailability.add(DaysOfTheWeek.FRIDAYMORNING);
-        sunnyAvailability.add(DaysOfTheWeek.FRIDAYAFTERNOON);
+        sunnyAvailability.add(DaysOfTheWeek.TUESDAYEVENING);
 
-        User sunny = new User("Sunny", 26, "Birmingham", "Lorem Ipsum", false,sunnyAvailability);
+        List<DaysOfTheWeek> danAvailability = new ArrayList<>();
+        danAvailability.add(DaysOfTheWeek.MONDAYMORNING);
+        danAvailability.add(DaysOfTheWeek.TUESDAYEVENING);
+
+        List<DaysOfTheWeek> mariaAvailability = new ArrayList<>();
+        mariaAvailability.add(DaysOfTheWeek.WEDNESDAYAFTERNOON);
+        mariaAvailability.add(DaysOfTheWeek.TUESDAYEVENING);
+
+        User sunny = new User("Sunny", 26, "Birmingham", "Lorem Ipsum", false, sunnyAvailability);
         userService.addUser(sunny);
-        User dan = new User("Dan", 22, "Coventry", "Lorem Ipsum", false,null);
+        User dan = new User("Dan", 22, "Coventry", "Lorem Ipsum", false, danAvailability);
         userService.addUser(dan);
-        User maria = new User("Maria", 25, "London", "Lorem Ipsum", true,null);
+        User maria = new User("Maria", 25, "London", "Lorem Ipsum", true, mariaAvailability);
         userService.addUser(maria);
 
         userService.addHobbyToUser(fiveAside.getId(), sunny.getId());
