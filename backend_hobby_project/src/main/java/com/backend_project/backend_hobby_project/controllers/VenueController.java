@@ -27,11 +27,7 @@ public class VenueController {
     @GetMapping
     public ResponseEntity<List<Venue>> getAllVenues() throws Exception{
         List<Venue> venues = venueService.findAllVenues();
-        if(!venues.isEmpty()) {
-            return new ResponseEntity<>(venues, HttpStatus.OK);
-        } else {
-            throw new RequestNotFoundException("Could not find any venues");
-        }
+        return new ResponseEntity<>(venues, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")

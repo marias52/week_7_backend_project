@@ -134,6 +134,12 @@ public class BookingService {
         this.addBooking(booking);
     }
 
+    public void removeUserFromAllBookings(Long userId) {
+        for(Booking booking : this.bookingRepository.findAll()) {
+            this.removerUserFromBooking(userId, booking.getId());
+        }
+    }
+
     public void removeHobbyFromBooking(long id){
         Booking booking = this.bookingRepository.findById(id).get();
         booking.setHobby(null);
