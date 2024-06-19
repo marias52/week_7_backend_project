@@ -114,6 +114,11 @@ public class BookingService {
     public void removerUserFromBooking(Long userId, Long bookingId){
         Booking booking = this.findBookingById(bookingId).get();
         User user = userRepository.findById(userId).get();
+
+        if(!booking.getUsers().contains(user)) {
+            return;
+        }
+
         Venue venue = booking.getVenue();
         List<User> bookingUserList = booking.getUsers();
         bookingUserList.remove(user);
