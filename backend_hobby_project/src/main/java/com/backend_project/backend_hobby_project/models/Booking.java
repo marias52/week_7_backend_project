@@ -94,6 +94,14 @@ public class Booking {
         return venue;
     }
 
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public void setVenue(Venue venue) {
         this.venue = venue;
     }
