@@ -16,8 +16,6 @@ public class UserDTO {
     private List<Long> hobbyIds;
 
 
-    //does our userDTO need all this information? or just a userID?
-    //how do we put in a list of enums in postman?
     public UserDTO(String name, int age, String location, String biography, List<Long> bookingIds, List<Long> hobbyIds, boolean isPrivate,List<DaysOfTheWeek> availability) {
         this.name = name;
         this.age = age;

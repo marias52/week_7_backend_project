@@ -3,7 +3,6 @@ package com.backend_project.backend_hobby_project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "time")
     private LocalTime time;
@@ -57,11 +56,11 @@ public class Booking {
     public Booking() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

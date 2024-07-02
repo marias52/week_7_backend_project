@@ -1,10 +1,8 @@
 package com.backend_project.backend_hobby_project.models;
 
-
 import com.backend_project.backend_hobby_project.enums.DaysOfTheWeek;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -63,6 +61,9 @@ public class User {
     public User() {
     }
 
+
+   
+
     public boolean isPrivate() {
         return isPrivate;
     }
@@ -71,11 +72,12 @@ public class User {
         isPrivate = aPrivate;
     }
 
-    public long getId() {
+    public Long getId() {
+
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -117,10 +119,6 @@ public class User {
         }
         return bookings;
     }
-
-//    public String getLol(){
-//        return "LOL";
-//    }
 
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;

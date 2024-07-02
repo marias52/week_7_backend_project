@@ -24,9 +24,6 @@ public class DataLoader implements ApplicationRunner {
     UserService userService;
 
     @Autowired
-    HobbyService hobbyService;
-
-    @Autowired
     VenueService venueService;
 
     @Autowired
