@@ -107,16 +107,6 @@ public class Booking {
         this.hobby = hobby;
     }
 
-    public void addUser(User user) {
-        users.add(user);
-    }
 
-    public void removeUser(User user) {
-        users.remove(user);
-    }
 
-    public String convertLocalDateToString(LocalDate date){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return date.format(formatter);
-    }
 }
