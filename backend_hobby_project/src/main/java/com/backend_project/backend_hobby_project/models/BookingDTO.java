@@ -9,10 +9,10 @@ public class BookingDTO {
     private LocalTime time;
     private LocalDate date;
     private List<Long> userIds;
-    private long venueId;
-    private long hobbyId;
+    private Long venueId;
+    private Long hobbyId;
 
-    public BookingDTO(String time, String date, List<Long> userIds, long venueId, long hobbyId) {
+    public BookingDTO(String time, String date, List<Long> userIds, Long venueId, Long hobbyId) {
         DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
         this.time = LocalTime.parse(time,formatTime);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -48,19 +48,19 @@ public class BookingDTO {
         this.userIds = userIds;
     }
 
-    public long getVenueId() {
+    public Long getVenueId() {
         return venueId;
     }
 
-    public void setVenueId(long venueId) {
+    public void setVenueId(Long venueId) {
         this.venueId = venueId;
     }
 
-    public long getHobbyId() {
+    public Long getHobbyId() {
         return hobbyId;
     }
 
-    public void setHobbyId(long hobbyId) {
+    public void setHobbyId(Long hobbyId) {
         this.hobbyId = hobbyId;
     }
 

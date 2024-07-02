@@ -7,7 +7,6 @@ public class VenueDTO {
     private String name;
     private String location;
     private int capacity;
-    private String city;
     private List<Long> bookingIds;
 
     public VenueDTO(String name, String location, int capacity, List<Long> bookingIds) {
