@@ -54,6 +54,7 @@ public class HobbyService {
             return true;
         }
     }
+
     public Hobby addHobby(Hobby newHobby) {
         String newHobbyName = newHobby.getName();
 
@@ -68,9 +69,10 @@ public class HobbyService {
             }
             if (shouldSave) {
                 hobbyRepository.save(newHobby);
+                return newHobby;
             }
         }
-        return newHobby;
+        return null;
     }
 
 }
