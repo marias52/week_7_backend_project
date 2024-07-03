@@ -65,13 +65,15 @@ public class HobbyService {
 
             if (this.checkForCloseSpelling(newHobbyName, hobbyNameToCheck)) {
                 shouldSave = false;
-                continue;
-            }
-            if (shouldSave) {
-                hobbyRepository.save(newHobby);
-                return newHobby;
+                break;
             }
         }
+
+        if (shouldSave) {
+            hobbyRepository.save(newHobby);
+            return newHobby;
+        }
+
         return null;
     }
 

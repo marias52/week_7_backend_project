@@ -50,10 +50,9 @@ public class HobbyController {
         try {
             Hobby newHobby = hobbyService.addHobby(hobby);
             if (newHobby != null) {
-                System.out.println(newHobby);
                 return new ResponseEntity<>(newHobby, HttpStatus.CREATED);
             } else {
-                throw new BadRequestException("Hobby not created");
+                throw new BadRequestException("Hobby not created - Hobby already exists or similar spelling detected");
             }
         } catch (HttpMessageNotReadableException e) {
             throw new BadJSONException(e.getMessage());
