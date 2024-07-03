@@ -54,6 +54,7 @@ public class HobbyService {
             return true;
         }
     }
+
     public Hobby addHobby(Hobby newHobby) {
         String newHobbyName = newHobby.getName();
 
@@ -64,13 +65,16 @@ public class HobbyService {
 
             if (this.checkForCloseSpelling(newHobbyName, hobbyNameToCheck)) {
                 shouldSave = false;
-                continue;
-            }
-            if (shouldSave) {
-                hobbyRepository.save(newHobby);
+                break;
             }
         }
-        return newHobby;
+
+        if (shouldSave) {
+            hobbyRepository.save(newHobby);
+            return newHobby;
+        }
+
+        return null;
     }
 
 }

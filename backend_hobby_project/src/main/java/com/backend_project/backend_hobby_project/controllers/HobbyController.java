@@ -1,6 +1,7 @@
 package com.backend_project.backend_hobby_project.controllers;
 
 import com.backend_project.backend_hobby_project.exceptions.BadJSONException;
+import com.backend_project.backend_hobby_project.exceptions.BadRequestException;
 import com.backend_project.backend_hobby_project.exceptions.RequestNotFoundException;
 import com.backend_project.backend_hobby_project.models.Hobby;
 import com.backend_project.backend_hobby_project.models.HobbyDTO;
@@ -47,7 +48,12 @@ public class HobbyController {
     @PostMapping
     public ResponseEntity<Hobby> addHobby(@RequestBody Hobby hobby) throws Exception {
         try {
-            return new ResponseEntity<>(hobbyService.addHobby(hobby), HttpStatus.CREATED);
+            Hobby newHobby = hobbyService.addHobby(hobby);
+            if (newHobby != null) {
+                return new ResponseEntity<>(newHobby, HttpStatus.CREATED);
+            } else {
+                throw new BadRequestException("Hobby not created - Hobby already exists or similar spelling detected");
+            }
         } catch (HttpMessageNotReadableException e) {
             throw new BadJSONException(e.getMessage());
         }
