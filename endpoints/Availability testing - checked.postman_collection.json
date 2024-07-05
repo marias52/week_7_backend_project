@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "8f4624c3-6df7-4c02-90a3-831ffc72dc4a",
+		"name": "Availability testing - checked",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34601523",
+		"_collection_link": "https://back-end-hobby-project.postman.co/workspace/Team-Workspace~29d86af9-14da-44c5-8a35-9fdcac8374ab/collection/35364785-8f4624c3-6df7-4c02-90a3-831ffc72dc4a?action=share&source=collection_link&creator=34601523"
+	},
+	"item": [
+		{
+			"name": "(checked) GetMapping for specific user availability",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/availability/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"availability",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change availability",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Colin\",\n    \"age\" : 30,\n    \"location\" : \"Edinburgh\",\n    \"biography\": \"1233\",\n    \"bookingIds\" : [],\n    \"hobbyIds\" : [],\n    \"availability\": [\"MONDAYEVENING\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/1?property=availability",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1"
+					],
+					"query": [
+						{
+							"key": "property",
+							"value": "availability"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

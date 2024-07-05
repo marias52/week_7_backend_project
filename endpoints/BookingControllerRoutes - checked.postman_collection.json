@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "d8e89fc6-051d-4406-9dc8-c919ceea2c76",
+		"name": "BookingControllerRoutes - checked",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34601523",
+		"_collection_link": "https://back-end-hobby-project.postman.co/workspace/Team-Workspace~29d86af9-14da-44c5-8a35-9fdcac8374ab/collection/34601523-d8e89fc6-051d-4406-9dc8-c919ceea2c76?action=share&source=collection_link&creator=34601523"
+	},
+	"item": [
+		{
+			"name": "INDEX (all)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/bookings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE (new Booking)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"time\" : \"17:00\",\n    \"date\" : \"12/06/2024\",\n    \"userIds\" : [1, 2, 3],\n    \"venueId\" : 1,\n    \"hobbyId\" : 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bookings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE (booking)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/bookings/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE (booking ALL)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"time\" : \"19:00\",\n    \"date\" : \"13/06/2024\",\n    \"userIds\" : [2, 3],\n    \"venueId\" : 1,\n    \"hobbyId\" : 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bookings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH (booking user)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userIds\" : [2]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bookings/1?property=removeUsers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings",
+						"1"
+					],
+					"query": [
+						{
+							"key": "property",
+							"value": "removeUsers"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

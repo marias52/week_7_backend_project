@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "6f4a48b8-9d50-4661-b6f8-46486b837315",
+		"name": "RecommendationTesting-checked",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34601523",
+		"_collection_link": "https://back-end-hobby-project.postman.co/workspace/Team-Workspace~29d86af9-14da-44c5-8a35-9fdcac8374ab/collection/35364785-6f4a48b8-9d50-4661-b6f8-46486b837315?action=share&source=collection_link&creator=34601523"
+	},
+	"item": [
+		{
+			"name": "(checked) get booking recommendation",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"Dan\",\n    \"age\": \"22\",\n    \"location\":\"London\",\n    \"biography\":\"lorum ipsum\",\n    \"bookingIds\":[],\n    \"hobbyIds\": [],\n    \"isPrivate\":false,\n    \"availability\" : [\"TUESDAYEVENING\"]\n\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bookings/recommendations",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings",
+						"recommendations"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

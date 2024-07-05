@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "1f8266dc-8891-4652-912b-aaf978ab18db",
+		"name": "UserControllerRoutes-checked",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34601523",
+		"_collection_link": "https://back-end-hobby-project.postman.co/workspace/Team-Workspace~29d86af9-14da-44c5-8a35-9fdcac8374ab/collection/35364785-1f8266dc-8891-4652-912b-aaf978ab18db?action=share&source=collection_link&creator=34601523"
+	},
+	"item": [
+		{
+			"name": "INDEX (all)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE (new user)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Colin\",\n    \"age\" : 30,\n    \"location\" : \"Edinburgh\",\n    \"biography\": \"1233\",\n    \"bookingIds\" : [],\n    \"hobbyIds\" : []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE (user)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Colin\",\n    \"age\" : 30,\n    \"location\" : \"Edinburgh\",\n    \"biography\": \"1233\",\n    \"bookingIds\" : [],\n    \"hobbyIds\" : []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE (user)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Sunny\",\n    \"age\" : 26,\n    \"location\" : \"Wednesbury\",\n    \"biography\": \"Lorem Ipsum\",\n    \"bookingIds\" : [],\n    \"hobbyIds\" : []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH (user)",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"hobbyIds\" : [1]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/users/1?property=removeHobby",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1"
+					],
+					"query": [
+						{
+							"key": "property",
+							"value": "removeHobby"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

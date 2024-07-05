@@ -1,0 +1,49 @@
+{
+	"info": {
+		"_postman_id": "4378c2ba-9252-4c3c-a0df-4909ecd58c6a",
+		"name": "PrivateUsersExtension-checked",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34601523",
+		"_collection_link": "https://back-end-hobby-project.postman.co/workspace/Team-Workspace~29d86af9-14da-44c5-8a35-9fdcac8374ab/collection/35366766-4378c2ba-9252-4c3c-a0df-4909ecd58c6a?action=share&source=collection_link&creator=34601523"
+	},
+	"item": [
+		{
+			"name": "get all Private users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/private",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"private"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all public users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/users/public",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"public"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
