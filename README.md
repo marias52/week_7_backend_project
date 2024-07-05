@@ -39,6 +39,96 @@ Here are a few of the features included within our API.
 * Dynamic Venue Capacity.
 * Custom Runtime Exceptions.
     * These runtime exceptions throw either 400 or 404 errors based around whether a piece of data can either be found or if the request was successfully received by the API.
+ 
+## Endpoints
+
+Included in the repo are the postman endpoints for the API. These are split accross Bookings, Users, Venues and Hobbies and include GET, POST, PATCH and DELETE. A typical successful API response will look like the following:
+
+### SUCCESSFUL GET - localhost:8080/bookings - Retrieve all Bookings.
+
+```json
+[
+    {
+        "id": 1,
+        "time": "18:00:00",
+        "date": "2024-06-11",
+        "users": [
+            {
+                "id": 1,
+                "name": "Sunny",
+                "age": 26,
+                "location": "Birmingham",
+                "biography": "Lorem Ipsum",
+                "isPrivate": false,
+                "availability": [
+                    "FRIDAYMORNING",
+                    "TUESDAYEVENING"
+                ],
+                "private": false
+            },
+            {
+                "id": 2,
+                "name": "Dan",
+                "age": 22,
+                "location": "Coventry",
+                "biography": "Lorem Ipsum",
+                "isPrivate": false,
+                "availability": [
+                    "MONDAYMORNING",
+                    "TUESDAYEVENING"
+                ],
+                "private": false
+            },
+            {
+                "id": 3,
+                "name": "Maria",
+                "age": 25,
+                "location": "London",
+                "biography": "Lorem Ipsum",
+                "isPrivate": true,
+                "availability": null,
+                "private": true
+            }
+        ],
+        "venue": {
+            "id": 1,
+            "name": "Wembly",
+            "location": "London",
+            "capacity": 89997
+        },
+        "hobby": {
+            "id": 1,
+            "name": "Five a Side"
+        }
+    }
+]
+```
+
+An unsuccessful API request will be accompanied with one of the relevant exception responses. These can either be:
+
+* BadRequestException - Returned if the request is made to the API is invalid.
+* RequestNotFoundException - Returned if the ID for the element you are trying to find cannot be found in the database.
+* BadJSONException - Returned if there is an issue with the JSON sent to the API.
+
+A typical exception will return:
+
+* A message detailing what the issue is.
+* The response status code.
+* The HTTP Status.
+* A timestamp for the issue.
+
+An example of a returned exception is as follows:
+
+### BAD GET - localhost:8080/bookings/2 - Retrieve a booking that doesn't exist
+
+```json
+{
+    "message": "Booking ID: 2 not found",
+    "statusCode": 404,
+    "httpStatus": "NOT_FOUND",
+    "timeStamp": "2024-07-05T10:26:47.342692+01:00"
+}
+```
 
 ## Installation
 
