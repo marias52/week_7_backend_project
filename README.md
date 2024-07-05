@@ -106,7 +106,7 @@ Included in the repo are the postman endpoints for the API. These are split accr
 
 An unsuccessful API request will be accompanied with one of the relevant exception responses. These can either be:
 
-* BadRequestException - Returned if the request is made to the API is invalid.
+* BadRequestException - Returned if the request made to the API is invalid.
 * RequestNotFoundException - Returned if the ID for the element you are trying to find cannot be found in the database.
 * BadJSONException - Returned if there is an issue with the JSON sent to the API.
 
